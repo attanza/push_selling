@@ -1,0 +1,39 @@
+<div class="market-detail-wrapper">
+  <div class="row">
+    <div class="form-group" :class="{'has-error': errors.has('name'), 'has-feedback': errors.has('name') }">
+      <label for="name" class="col-sm-4">Market Name</label>
+      <div class="col-sm-8">
+        <input name="name" v-model="name" v-validate:name="'required|max:150'"
+        data-vv-as="Market Name" type="text" class="form-control" placeholder="Market name"
+        autofocus @keyup.enter="validateBeforeSubmit">
+        <span v-show="errors.has('name')" class="glyphicon glyphicon-warning-sign form-control-feedback" aria-hidden="true"></span>
+        <span class="help-block">{{ errors.first('name') }}</span>
+      </div>
+    </div>
+    <div class="form-group">
+      <label for="area" class="col-sm-4">Area</label>
+      <div class="col-sm-8">
+        <v-select label="name" :options="areas" v-model="area" :value.sync="area"></v-select>
+        <p class="pull-right" style="margin-top: 8px;">
+          <a href="javascript:void(0)" @click="show_insert_form"><i class="fa fa-plus"></i> Add Area</a>
+        </p>
+      </div>
+    </div>
+
+    <div class="form-group">
+      <label for="address" class="col-sm-4">Address</label>
+      <div class="col-sm-8">
+        <textarea name="address" v-model="address" class="form-control" placeholder="Address"></textarea>
+      </div>
+    </div>
+
+    <div class="form-group" >
+      <div class="col-sm-12" style="margin-top: 20px;">
+        <button class="btn btn-danger pull-right" @click="validateBeforeSubmit">
+          <i class="fa" v-bind:class="button.class"></i> {{button.name}}
+        </button>
+      </div>
+    </div>
+  </div>
+  <area-form-modal></area-form-modal>
+</div>

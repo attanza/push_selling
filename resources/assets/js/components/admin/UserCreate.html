@@ -1,0 +1,131 @@
+<div id="user_create">
+  <form @submit.prevent="validateBeforeSubmit">
+
+  <div class="row">
+    <div class="col-md-6">
+      <div class="box box-danger">
+        <div class="box-body">
+          <div class="form-group" :class="{'has-error': errors.has('name'), 'has-feedback': errors.has('name') }">
+            <label for="name">Fullname</label>
+            <input name="name" v-model="name" v-validate:name="'required|max:150'"
+            data-vv-as="Name" type="text" class="form-control" placeholder="Fullname" autofocus>
+            <span v-show="errors.has('name')" class="glyphicon glyphicon-warning-sign form-control-feedback" aria-hidden="true"></span>
+            <span class="help-block">{{ errors.first('name') }}</span>
+          </div>
+
+          <div class="form-group" :class="{'has-error': errors.has('username') || username_error_message != '', 'has-feedback': errors.has('username') }">
+            <label for="username">Username / User ID</label>
+            <input name="username" v-model="username" v-validate:username="'required|max:150'"
+            data-vv-as="Username" type="text" class="form-control" placeholder="Username" @change="check_username()">
+            <span v-show="errors.has('username')" class="glyphicon glyphicon-warning-sign form-control-feedback" aria-hidden="true"></span>
+            <span class="help-block">{{ errors.first('username') }}</span>
+            <span class="help-block" v-if="username_error_message != ''">{{username_error_message}}</span>
+          </div>
+
+          <div class="form-group" :class="{'has-error': errors.has('email') || email_error_message != '', 'has-feedback': errors.has('email') }">
+            <label for="email">Email Address</label>
+            <input name="email" v-model="email" v-validate:email="'required|email|max:150'"
+            data-vv-as="Email Address" type="email" class="form-control" placeholder="Email Address"
+            @change="check_email()">
+            <span v-show="errors.has('email')" class="glyphicon glyphicon-warning-sign form-control-feedback" aria-hidden="true"></span>
+            <span class="help-block">{{ errors.first('email') }}</span>
+            <span class="help-block" v-if="email_error_message != ''">{{email_error_message}}</span>
+          </div>
+
+          <div class="form-group" :class="{'has-error': errors.has('ktp'), 'has-feedback': errors.has('ktp') }">
+            <label for="ktp">Citizen ID / KTP</label>
+            <input name="ktp" v-model="ktp" v-validate:ktp="'numeric|max:150'"
+            data-vv-as="Citizen ID / KTP" type="ktp" class="form-control" placeholder="Citizen ID / KTP">
+            <span v-show="errors.has('ktp')" class="glyphicon glyphicon-warning-sign form-control-feedback" aria-hidden="true"></span>
+            <span class="help-block">{{ errors.first('ktp') }}</span>
+          </div>
+
+          <div class="form-group" :class="{'has-error': errors.has('gender'), 'has-feedback': errors.has('gender') }">
+            <label for="gender">Gender</label>
+            <select class="form-control" name="gender" v-model="gender" v-validate:gender="'max:10'" data-vv-as="Gender">
+              <option value="" disabled selected>Gender</option>
+              <option value="Male">Male</option>
+              <option value="Female">Female</option>
+            </select>
+            <span v-show="errors.has('gender')" class="glyphicon glyphicon-warning-sign form-control-feedback" aria-hidden="true"></span>
+            <span class="help-block">{{ errors.first('gender') }}</span>
+          </div>
+
+          <div class="form-group" :class="{'has-error': errors.has('role'), 'has-feedback': errors.has('role') }">
+            <label for="role">Level</label>
+            <select class="form-control" name="role" v-model="role" v-validate:role="'required|max:10'" data-vv-as="Level">
+              <option value="" disabled selected>Level</option>
+              <option :value="role.id" v-for="role in roles">{{role.name}}</option>
+            </select>
+            <span v-show="errors.has('role')" class="glyphicon glyphicon-warning-sign form-control-feedback" aria-hidden="true"></span>
+            <span class="help-block">{{ errors.first('role') }}</span>
+          </div>
+
+        </div>
+      </div>
+    </div>
+    <div class="col-md-6">
+      <div class="box box-danger">
+        <div class="box-body">
+          <div class="form-group">
+            <label for="dob">Date of Birth</label>
+            <div class="row">
+              <div class="col-sm-4" style="margin-bottom: 8px;">
+                <select name="dd" v-model="dd" v-validate:dd="'required|digits:2'"
+                data-vv-as="Date" class="form-control" style="width: 100%">
+                  <option value="" disabled selected>Date</option>
+                  <option v-for="dd in dates" :value="dd" >{{dd}}</option>
+                </select>
+                <span class="help-block text-red">{{ errors.first('dd') }}</span>
+              </div>
+              <div class="col-sm-4" style="margin-bottom: 8px;">
+                <select name="mm" v-model="mm" v-validate:mm="'required|digits:2'"
+                data-vv-as="Month" class="form-control" style="width: 100%">
+                  <option value="" disabled selected>Month</option>
+                  <option v-for="mm in months" :value="mm" >{{mm}}</option>
+                </select>
+                <span class="help-block text-red">{{ errors.first('mm') }}</span>
+              </div>
+              <div class="col-sm-4" style="margin-bottom: 8px;">
+                <select name="yyyy" v-model="yyyy" v-validate:yyyy="'required|digits:4'"
+                data-vv-as="Year" class="form-control" style="width: 100%">
+                  <option value="" disabled selected>Year</option>
+                  <option v-for="yyyy in years" :value="yyyy" >{{yyyy}}</option>
+                </select>
+                <span class="help-block text-red">{{ errors.first('yyyy') }}</span>
+              </div>
+            </div>
+          </div>
+          <div class="form-group" :class="{'has-error': errors.has('phone1'), 'has-feedback': errors.has('phone1') }">
+            <label for="phone1">Phone Number</label>
+            <input name="phone1" v-model="phone1" v-validate:phone1="'numeric|max:30'"
+            data-vv-as="Phone Number" type="phone1" class="form-control" placeholder="Phone Number">
+            <span v-show="errors.has('phone1')" class="glyphicon glyphicon-warning-sign form-control-feedback" aria-hidden="true"></span>
+            <span class="help-block">{{ errors.first('phone1') }}</span>
+          </div>
+
+          <div class="form-group" :class="{'has-error': errors.has('phone2'), 'has-feedback': errors.has('phone2') }">
+            <label for="phone2">Other Phone Number</label>
+            <input name="phone2" v-model="phone2" v-validate:phone2="'numeric|max:30'"
+            data-vv-as="Other Phone Number" type="phone2" class="form-control" placeholder="Other Phone Number">
+            <span v-show="errors.has('phone2')" class="glyphicon glyphicon-warning-sign form-control-feedback" aria-hidden="true"></span>
+            <span class="help-block">{{ errors.first('phone2') }}</span>
+          </div>
+
+          <div class="form-group" :class="{'has-error': errors.has('address'), 'has-feedback': errors.has('address') }">
+            <label for="address">Address</label>
+            <textarea name="name" class="form-control" rows="4" placeholder="Address"></textarea>
+          </div>
+
+          <div class="form-group">
+            <button type="submit" class="btn btn-danger btn-sm">
+              <i class="fa" v-bind:class="button.class"></i> {{button.name}}
+            </button>
+          </div>
+
+        </div>
+      </div>
+    </div>
+  </div>
+  </form>
+</div>
