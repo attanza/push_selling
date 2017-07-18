@@ -66,7 +66,7 @@ trait GlobalTrait
           'size' => $size
         ];
 
-        $media = Media::where('mediable_id', $id)->first();
+        $media = Media::where('mediable_id', $id)->where('mediable_type', $model)->first();
         if (!$media) {
             $media = Media::create($data);
         } else {
@@ -80,6 +80,15 @@ trait GlobalTrait
     {
         if (Storage::disk('local')->exists($path.$filename)) {
             Storage::delete($path.$filename);
+        }
+    }
+
+    public function deleteMedia($db, $model)
+    {
+        $media = Media::where('mediable_id', $db->id)->where('mediable_type', $model)->first();
+        if (count($media) > 0) {
+            $this->deletePhotoIfExists($media->folder, $media->filename);
+            $media->delete();
         }
     }
 }

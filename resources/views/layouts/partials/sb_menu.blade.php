@@ -16,6 +16,9 @@
     <li @if(Request::is('market') || Request::is('market/*')) class="active" @endif>
       <a href="{{route('market.index')}}"><i class="fa fa-balance-scale"></i> <span>Market</span></a>
     </li>
+    <li @if(Request::is('stokiest*')) class="active" @endif>
+      <a href="{{route('stokiest.index')}}"><i class="fa fa-building"></i> <span>Stokiest</span></a>
+    </li>
   @endif
   {{--
   <li class="treeview">

@@ -28,6 +28,15 @@ Vue.component('market-photo', require('./components/admin/market/MarketPhoto.vue
 Vue.component('market-edit', require('./components/admin/market/MarketEdit.vue'));
 Vue.component('market-map', require('./components/admin/market/MarketMap.vue'));
 
+// Stokiest
+Vue.component('stokiest-buttons', require('./components/admin/stokiest/StokiestButtons.vue'));
+Vue.component('stokiest-list', require('./components/admin/stokiest/StokiestList.vue'));
+Vue.component('stokiest-create', require('./components/admin/stokiest/StokiestCreate.vue'));
+Vue.component('stokiest-init', require('./components/admin/stokiest/StokiestInit.vue'));
+Vue.component('stokiest-photo', require('./components/admin/stokiest/StokiestPhoto.vue'));
+Vue.component('stokiest-edit', require('./components/admin/stokiest/StokiestEdit.vue'));
+// Vue.component('market-map', require('./components/admin/market/MarketMap.vue'));
+
 
 import moment from 'moment';
 import {

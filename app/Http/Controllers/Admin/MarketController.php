@@ -33,7 +33,7 @@ class MarketController extends Controller
         $query = e($request->input('query'));
         if ($query != '') {
             $markets = Market::with('area')->where('name', 'LIKE', "%$query%")
-            ->orWhere('email', 'LIKE', "%$query%")
+            ->orWhere('slug', 'LIKE', "%$query%")->orWhere('address', 'LIKE', "%$query%")
             ->paginate($request->paginate);
         } else {
             $markets = Market::with('area')->paginate($request->paginate);
@@ -140,7 +140,7 @@ class MarketController extends Controller
         $this->savePhoto($file, $market, $folder, $model);
 
         // Save Activity
-        $activity = "Upload photo Market $market->name";
+        $activity = "Upload Market photo ~ $market->name";
         $this->saveActivity($request, $activity);
 
         return response()->json([

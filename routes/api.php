@@ -53,3 +53,13 @@ Route::group(['middleware' => 'auth:api','namespace' => 'Admin', 'prefix'=>'mark
   Route::put('/{id}', 'MarketController@update');
   Route::post('/{id}/set_location', 'MarketController@setLocation');
 });
+
+// Stokiest
+Route::group(['middleware' => 'auth:api','namespace' => 'Admin', 'prefix'=>'stokiest'], function(){
+  Route::post('/listing', 'StokiestController@listing');
+  Route::post('/', 'StokiestController@store');
+  Route::post('/{id}/upload', 'StokiestController@uploadPhoto');
+  Route::delete('/{id}', 'StokiestController@destroy');
+  Route::put('/{id}', 'StokiestController@update');
+  Route::post('/{id}/set_location', 'StokiestController@setLocation');
+});

@@ -16,28 +16,32 @@
     </div>
     <div class="col-sm-4">
       <div class="pull-right">
-        <input type="text" v-model="query" value="" placeholder="Search ... " @keyup.enter="get_markets(pagination.current_page)">
+        <input type="text" v-model="query" value="" placeholder="Search ... " @keyup.enter="get_stokiests(pagination.current_page)">
       </div>
     </div>
   </div>
   <!--  Table -->
   <div class="table-responsive">
-      <table class="table table-hover table-condensed sortable" id="user_table">
+      <table class="table table-hover table-condensed sortable" id="stokiest_table">
         <thead>
           <tr>
+            <th>Code</th>
             <th>Name</th>
-            <th>Address</th>
+            <th>Phone</th>
+            <th>Email</th>
+
             <th></th>
           </tr>
         </thead>
         <tbody>
-          <tr v-for="market in markets">
-            <td>{{market.name}}</td>
-            <td>{{market.address}}</td>
+          <tr v-for="stokiest in stokiests">
+            <td>{{stokiest.code}}</td>
+            <td>{{stokiest.name}}</td>
+            <td>{{stokiest.phone1}}</td>
+            <td>{{stokiest.email}}</td>
             <td>
-              <button type="button" class="btn btn-default btn-sm" @click="show_market(market.slug)"><i class="fa fa-eye"></i></button>
-              <button type="button" class="btn btn-danger btn-sm" @click="delete_market(market.id)"><i class="fa fa-eye"></i></button>
-
+              <button type="button" class="btn btn-default btn-sm" @click="show_stokiest(stokiest.code)"><i class="fa fa-eye"></i></button>
+              <button type="button" class="btn btn-danger btn-sm" @click="showModal = true, cur_id=stokiest.id"><i class="fa fa-eye"></i></button>
             </td>
           </tr>
         </tbody>
@@ -78,4 +82,5 @@
       </nav>
     </div>
   </div>
+  <confirm-dialog v-if="showModal" @close="showModal = false" @next_process="delete_stokiest"></confirm-dialog>
 </div>

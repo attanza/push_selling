@@ -7,7 +7,8 @@ export const store = new Vuex.Store({
 	state: {
 		user: {},
 		avatar: '',
-		current_market: {}
+		current_market: {},
+		current_stokiest: {},
 	},
 
 	getters: {
@@ -23,7 +24,9 @@ export const store = new Vuex.Store({
 		},
 		current_market_mutation(state, market){
 			state.current_market = market
+		},
+		current_stokiest_mutation(state, stokiest){
+			state.current_stokiest = stokiest
 		}
-
 	}
 })

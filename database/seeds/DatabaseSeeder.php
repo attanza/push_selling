@@ -13,8 +13,16 @@ class DatabaseSeeder extends Seeder
     public function run()
     {
         // Roles
-        $this->role_seeder();
+        // $this->role_seeder();
 
+        // Create Admin User
+        // $this->createAdmin();
+
+        $this->seedStokiest();
+    }
+
+    private function createAdmin()
+    {
         App\User::create([
           'name' => 'Superuser',
           'username' => 'superuser',
@@ -36,13 +44,6 @@ class DatabaseSeeder extends Seeder
           'user_id' => 2,
           'role_id' => 4
         ]);
-
-        // App\Models\Area::truncate();
-        // $users = factory(App\Models\Area::class, 10)->create();
-        //
-        // App\Models\Market::truncate();
-        // $market = factory(App\Models\Market::class, 10)->create();
-
     }
 
     private function role_seeder(){
@@ -66,5 +67,24 @@ class DatabaseSeeder extends Seeder
         'slug' => 'superuser',
         'name' => 'Superuser'
       ]);
+    }
+
+    private function seedArea()
+    {
+        App\Models\Area::truncate();
+        $users = factory(App\Models\Area::class, 10)->create();
+    }
+
+    private function seedMarket()
+    {
+        App\Models\Market::truncate();
+        $market = factory(App\Models\Market::class, 10)->create();
+    }
+
+    private function seedStokiest()
+    {
+        DB::table('area_stokiest')->truncate();
+        App\Models\Stokiest::truncate();
+        $stokiest = factory(App\Models\Stokiest::class, 10)->create();
     }
 }

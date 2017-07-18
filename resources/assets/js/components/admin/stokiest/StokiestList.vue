@@ -1,10 +1,15 @@
-<template src="./market_list.html"></template>
+<template src="./stokiest_list.html"></template>
 <script>
+import ConfirmDialog from "./../../ConfirmDialog";
+
 export default {
   name: "user_list",
+  components: {
+    'confirm-dialog': ConfirmDialog
+  },
   data: function data() {
     return{
-        markets: [],
+        stokiests: [],
         pagination: {
             total: 0,
             per_page: 2,
@@ -15,6 +20,8 @@ export default {
         offset: 2,
         paginate: 10,
         query: '',
+        showModal: false,
+        cur_id: ''
     }
   },
 
@@ -50,65 +57,51 @@ export default {
   },
 
   mounted(){
-      this.get_markets(this.pagination.current_page)
-      this.$on('markets', function (markets) {
-          this.markets = markets
+      this.get_stokiests(this.pagination.current_page)
+      this.$on('stokiests', function (stokiests) {
+          this.stokiests = stokiests
       })
       this.$on('pagination', function (pagination) {
           this.pagination = pagination
       })
-      window.eventBus.$on('saved-market', this.update_market)
+      window.eventBus.$on('saved-stokiest', this.update_stokiest)
   },
 
   methods: {
-      get_markets(page){
+      get_stokiests(page){
           var vm = this
-          axios.post('/api/market/listing?page='+page,{
+          axios.post('/api/stokiest/listing?page='+page,{
             paginate: this.paginate,
             query: this.query
           }).then((resp)=>{
-              vm.$emit('markets', resp.data.markets.data)
+              vm.$emit('stokiests', resp.data.stokiests.data)
               vm.$emit('pagination', resp.data.pagination)
           })
       },
 
       changePage(page){
           this.pagination.current_page = page
-          this.get_markets(page)
+          this.get_stokiests(page)
       },
 
-      update_market(data){
-        this.markets.unshift(data)
+      update_stokiest(data){
+        this.stokiests.unshift(data)
       },
 
-      show_market(slug){
-        window.location.replace('/market/'+slug)
+      show_stokiest(code){
+        window.location.replace('/stokiest/'+code)
       },
 
-      delete_market(id){
-        noty({
-          layout: 'center',
-          theme: 'defaultTheme',
-          type: 'error',
-          text: 'Are you sure?',
-          buttons: [
-            {addClass: 'btn btn-danger', text: 'Ok', onClick: function($noty) {
-              axios.delete('/api/market/'+id).then((resp)=>{
-                if(resp.status == 200){
-                  toastr.success(resp.data.msg)
-                  window.location.reload()
-                }
-              })
-              $noty.close();
-            }
-          },
-          {addClass: 'btn btn-default', text: 'Cancel', onClick: function($noty) {
-              $noty.close();
-            }
+      delete_stokiest(){
+        axios.delete('/api/stokiest/'+this.cur_id).then((resp)=>{
+          if(resp.status == 200){
+            toastr.success(resp.data.msg)
+            this.stokiest = []
+            this.get_stokiests(this.pagination.current_page)
+            this.showModal = false
           }
-        ]
-      });
-    },
+        })
+      }
   }
 }
 </script>

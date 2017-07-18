@@ -1,8 +1,8 @@
 <template>
-  <div id="market_add">
+  <div id="stokiest_buttons">
     <div class="btn-group">
-      <button type="button" class="btn btn-danger btn-sm" data-toggle="collapse" data-target="#market_form" aria-expanded="false" aria-controls="market_form">
-        <i class="fa fa-plus"></i> Add Market
+      <button type="button" class="btn btn-danger btn-sm" @click="create_stokiest()">
+        <i class="fa fa-plus"></i> Add Stokiest
       </button>
       <button type="button" class="btn btn-success btn-sm" @click="showModal = true"><i class="fa fa-download"></i> Export</button>
     </div>
@@ -12,7 +12,7 @@
 <script>
 import ConfirmDialog from "./../../ConfirmDialog";
 export default {
-  name: "market_add",
+  name: "stokiest_buttons",
   components: {
     'confirm-dialog': ConfirmDialog
   },
@@ -24,7 +24,12 @@ export default {
   methods: {
     export_data(){
       this.showModal = false
-      window.location.replace('/export-data/market')
+      window.location.replace('/export-data/stokiest')
+    },
+
+    create_stokiest(){
+      console.log('add');
+      window.location.replace('/stokiest/create')
     }
   }
 }

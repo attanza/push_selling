@@ -1,0 +1,92 @@
+<div id="stokiest_create">
+  <div class="box box-danger">
+    <div class="box-body">
+      <div class="row">
+        <div class="col-md-6">
+          <div class="form-group" :class="{'has-error': errors.has('code'), 'has-feedback': errors.has('code') }">
+            <label for="code">Stokiest Code</label>
+            <input name="code" id="code" v-model="code" v-validate:code="'required|max:50'"
+            data-vv-as="Stokiest Code" type="text" class="form-control" placeholder="Stokiest Code" autofocus>
+            <span v-show="errors.has('code')" class="glyphicon glyphicon-warning-sign form-control-feedback" aria-hidden="true"></span>
+            <span class="help-block">{{ errors.first('code') }}</span>
+          </div>
+
+          <div class="form-group" :class="{'has-error': errors.has('name'), 'has-feedback': errors.has('name') }">
+            <label for="name">Stokiest Name</label>
+            <input name="name" id="name" v-model="name" v-validate:name="'required|max:50'"
+            data-vv-as="Stokiest Name" type="text" class="form-control" placeholder="Stokiest Name">
+            <span v-show="errors.has('name')" class="glyphicon glyphicon-warning-sign form-control-feedback" aria-hidden="true"></span>
+            <span class="help-block">{{ errors.first('name') }}</span>
+          </div>
+
+          <div class="form-group" :class="{'has-error': errors.has('owner'), 'has-feedback': errors.has('owner') }">
+            <label for="owner">Owner Name</label>
+            <input name="owner" id="owner" v-model="owner" v-validate:owner="'required|max:50'"
+            data-vv-as="Owner Name" type="text" class="form-control" placeholder="Owner Name">
+            <span v-show="errors.has('owner')" class="glyphicon glyphicon-warning-sign form-control-feedback" aria-hidden="true"></span>
+            <span class="help-block">{{ errors.first('owner') }}</span>
+          </div>
+
+          <div class="form-group" :class="{'has-error': errors.has('pic'), 'has-feedback': errors.has('pic') }">
+            <label for="pic">PIC Name</label>
+            <input name="pic" id="pic" v-model="pic" v-validate:pic="'required|max:50'"
+            data-vv-as="PIC Name" type="text" class="form-control" placeholder="PIC Name">
+            <span v-show="errors.has('pic')" class="glyphicon glyphicon-warning-sign form-control-feedback" aria-hidden="true"></span>
+            <span class="help-block">{{ errors.first('pic') }}</span>
+          </div>
+
+          <div class="form-group" :class="{'has-error': errors.has('area'), 'has-feedback': errors.has('area') }">
+            <label for="area">Area</label>
+            <v-select multiple label="name" :options="areas" v-model="area" placeholder="Select Area"></v-select>
+            <p class="pull-right" style="margin-top: 8px;">
+              <a href="javascript:void(0)" @click="show_insert_area_form">
+                <i class="fa fa-plus"></i> Add Area
+              </a>
+            </p>
+            <span v-show="errors.has('area')" class="glyphicon glyphicon-warning-sign form-control-feedback" aria-hidden="true"></span>
+            <span class="help-block">{{ errors.first('area') }}</span>
+          </div>
+        </div><!-- col-md-6 -->
+        <div class="col-md-6">
+          <div class="form-group" :class="{'has-error': errors.has('phone1'), 'has-feedback': errors.has('phone1') }">
+            <label for="phone1">Phone Number</label>
+            <input name="phone1" id="phone1" v-model="phone1" v-validate:phone1="'required|max:30'"
+            data-vv-as="Phone Number" type="text" class="form-control" placeholder="Phone Number">
+            <span v-show="errors.has('phone1')" class="glyphicon glyphicon-warning-sign form-control-feedback" aria-hidden="true"></span>
+            <span class="help-block">{{ errors.first('phone1') }}</span>
+          </div>
+
+          <div class="form-group" :class="{'has-error': errors.has('phone2'), 'has-feedback': errors.has('phone2') }">
+            <label for="phone2">Other Phone Number</label>
+            <input name="phone2" id="phone2" v-model="phone2" v-validate:phone2="'max:30'"
+            data-vv-as="Other Phone Number" type="text" class="form-control" placeholder="Other Phone Number">
+            <span v-show="errors.has('phone2')" class="glyphicon glyphicon-warning-sign form-control-feedback" aria-hidden="true"></span>
+            <span class="help-block">{{ errors.first('phone2') }}</span>
+          </div>
+
+          <div class="form-group" :class="{'has-error': errors.has('email'), 'has-feedback': errors.has('email') }">
+            <label for="email">Email Address</label>
+            <input name="email" id="email" v-model="email" v-validate:email="'required|email|max:150'"
+            data-vv-as="Email Address" type="email" class="form-control" placeholder="Email Address">
+            <span v-show="errors.has('email')" class="glyphicon glyphicon-warning-sign form-control-feedback" aria-hidden="true"></span>
+            <span class="help-block">{{ errors.first('email') }}</span>
+          </div>
+
+          <div class="form-group" :class="{'has-error': errors.has('address'), 'has-feedback': errors.has('address') }">
+            <label for="address">Address</label>
+            <textarea name="address" id="address" v-model="address" v-validate:address=""
+            data-vv-as="Address" class="form-control" placeholder="Address"></textarea>
+            <span v-show="errors.has('address')" class="glyphicon glyphicon-warning-sign form-control-feedback" aria-hidden="true"></span>
+            <span class="help-block">{{ errors.first('address') }}</span>
+          </div>
+        </div><!-- col-md-6 -->
+      </div><!-- row -->
+      <div class="box-footer">
+        <button class="btn btn-danger pull-right" @click="validateBeforeSubmit">
+          <i class="fa" v-bind:class="button.class"></i> {{button.name}}
+        </button>
+      </div>
+    </div>
+  </div>
+  <area-form-modal></area-form-modal>
+</div>

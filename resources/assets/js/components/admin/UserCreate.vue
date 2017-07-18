@@ -1,7 +1,6 @@
 <template src="./UserCreate.html"></template>
 <script>
 import VeeValidate from 'vee-validate';
-
 Vue.use(VeeValidate);
 
 export default {

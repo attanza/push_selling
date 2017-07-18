@@ -24,6 +24,8 @@ Route::group(['middleware' => 'auth'], function(){
   Route::get('export-data/user', 'ExportController@exportUser')->name('export-data.user');
   Route::get('export-data/area', 'ExportController@exportArea')->name('export-data.area');
   Route::get('export-data/market', 'ExportController@exportMarket')->name('export-data.market');
+  Route::get('export-data/stokiest', 'ExportController@exportStokiest')->name('export-data.stokiest');
+
 });
 
 Route::group(['namespace' => 'Admin', 'middleware' => 'admin'], function(){
@@ -42,17 +44,9 @@ Route::group(['middleware' => 'auth', 'namespace' => 'Admin', 'prefix' => 'marke
   Route::get('/{slug}', 'MarketController@show')->name('market.show');
 });
 
-Route::get('test/email', function(){
-  $user = App\User::first();
-  $password = str_random(6);
-  return view('emails.new_password_mail')->with([
-    'user' => $user,
-    'password' => $password
-  ]);
-});
-
-Route::get('test/function/test', function(){
-  $input = 'app/public/markets/';
-  $result = explode('app/',$input);
-  return $result[1];
+// Stokiest
+Route::group(['middleware' => 'auth', 'namespace' => 'Admin', 'prefix' => 'stokiest'], function(){
+  Route::get('/', 'StokiestController@index')->name('stokiest.index');
+  Route::get('/create', 'StokiestController@create')->name('stokiest.create');
+  Route::get('/{code}', 'StokiestController@show')->name('stokiest.show');
 });

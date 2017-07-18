@@ -15,4 +15,9 @@ class Area extends Model
     {
         return $this->hasMany('App\Models\Market');
     }
+
+    public function stokiests()
+    {
+        return $this->belongsToMany('App\Models\Stokiest');
+    }
 }
