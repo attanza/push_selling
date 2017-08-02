@@ -1,0 +1,55 @@
+<div id="item_gallery">
+  <div class="row" v-for="chunk in medias">
+    <div class="col-sm-3" v-for="(media, index) in chunk">
+      <a href="javascript:void(0)" @click="show_lightbox(index)" class="thumbnail">
+        <div class="item-image-wrapper">
+          <img :src="media.path" alt="">
+        </div>
+      </a>
+      <div class="item-media-footer">
+        <div class="row">
+          <div class="col-xs-8">
+            <span class="item-caption" v-if="media.caption != null && media.caption.length > 50">{{char_limit(media.caption,50)}}</span>
+            <span class="item-caption" v-else>{{media.caption}}</span>
+          </div>
+          <div class="col-xs-4">
+            <div class="btn-group pull-right" role="group" aria-label="...">
+              <button type="button" v-tooltip="'Edit caption'" class="btn btn-primary btn-xs" @click="edit_media(media)"><i class="fa fa-edit"></i></button>
+              <button type="button" v-tooltip="'Delete photo'" class="btn btn-danger btn-xs" @click="showModal = true, cur_image = media"><i class="fa fa-trash"></i></button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <nav class="pull-right">
+    <ul class="pagination">
+      <li v-if="pagination.current_page > 1">
+        <a href="javascript:void(0)" aria-label="First" @click.prevent="changePage(pagination.current_page = 1)">
+            <i class="fa fa-step-backward"></i>
+        </a>
+      </li>
+      <li v-if="pagination.current_page > 1">
+        <a href="javascript:void(0)" aria-label="Previous" @click.prevent="changePage(pagination.current_page - 1)">
+            <i class="fa fa-chevron-left"></i>
+        </a>
+      </li>
+      <li v-for="page in pagesNumber" v-bind:class="[page == isActived ? 'active' : '']">
+        <a href="#" @click.prevent="changePage(page)">{{page}}</a>
+      </li>
+      <li v-if="pagination.current_page < pagination.last_page">
+        <a href="javascript:void(0)" aria-label="Next" @click.prevent="changePage(pagination.current_page + 1)">
+            <i class="fa fa-chevron-right"></i>
+        </a>
+      </li>
+      <li v-if="pagination.current_page < pagination.last_page">
+        <a href="javascript:void(0)" aria-label="Last" @click.prevent="changePage(pagination.current_page = pagination.last_page)">
+            <i class="fa fa-step-forward"></i>
+        </a>
+      </li>
+    </ul>
+  </nav>
+  <vue-lightbox :images="images"></vue-lightbox>
+  <input-box-modal :cur_image="cur_image"></input-box-modal>
+  <confirm-dialog v-if="showModal" @close="showModal = false" @next_process="delete_media"></confirm-dialog>
+</div>

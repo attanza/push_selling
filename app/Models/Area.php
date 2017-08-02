@@ -11,13 +11,13 @@ class Area extends Model
     protected $dates = ['deleted_at'];
     protected $fillable = ['name','description'];
 
+    public function stokiest()
+    {
+        return $this->hasOne('App\Models\Stokiest');
+    }
+
     public function markets()
     {
         return $this->hasMany('App\Models\Market');
-    }
-
-    public function stokiests()
-    {
-        return $this->belongsToMany('App\Models\Stokiest');
     }
 }

@@ -19,7 +19,9 @@
   <link rel="stylesheet" href="{{asset('css/skin-red.min.css')}}">
   <link rel="stylesheet" href="{{asset('css/tooltip.css')}}">
   <link rel="stylesheet" href="{{asset('css/cropper.min.css')}}">
+  <link rel="stylesheet" href="{{asset('css/vue-image-lightbox.min.css')}}">
   <link rel="stylesheet" href="{{asset('css/customes/overides.css')}}">
+
   @yield('styles')
   <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
   <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->

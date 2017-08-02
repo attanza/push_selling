@@ -6,10 +6,11 @@ use Tests\TestCase;
 use Illuminate\Foundation\Testing\WithoutMiddleware;
 use Illuminate\Foundation\Testing\DatabaseMigrations;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
+use Laravel\BrowserKitTesting\TestCase as BaseTestCase;
 use App\User;
 use DB;
 
-class LoginTest extends TestCase
+abstract class LoginTest extends BaseTestCase
 {
     use DatabaseMigrations;
 
@@ -20,20 +21,27 @@ class LoginTest extends TestCase
         parent::setUp();
         $this->createRole();
         $this->createRoleUser();
-        $this->user = $this->createUser();
+        $this->createUser();
+        $this->user = User::find(1);
     }
 
-    public function test_a_guest_should_not_see_dashboard()
+    public function testUserLogin()
     {
-        $this->get('/dashboard')
-            ->assertRedirect(route('login'));
+      $this->visit('/')
+           ->see('Log in')
+           ->type('admin@admin.com', 'name')
+           ->type('password', 'password')
+           ->press('Log in')
+           ->seePageIs('/dashboard');
     }
 
-    public function test_an_admin_user_can_see_dashboard()
+    public function test_a_non_regietered_user_cannot_login()
     {
-        $this->actingAs($this->user)
-            ->get('/dashboard')
-            ->assertSeeText('Dashboard');
+        $this->visit('/login')
+        ->type('dani@dani.com', 'name')
+        ->type('password', 'password')
+        ->press('Log in')
+        ->seePageIs('/login');
     }
 
     private function createUser()
@@ -66,7 +74,7 @@ class LoginTest extends TestCase
     private function createRoleUser()
     {
         $role_user = DB::table('role_user')->insert([
-            'role_id' => 2,
+            'role_id' => 1,
             'user_id' => 1
         ]);
     }

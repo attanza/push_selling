@@ -16,7 +16,7 @@ export default {
     return {
       code: '', name: '', pic: '', owner: '', phone1: '', phone2: '',
       email: '', address: '', lat: '', lng: '',
-      areas: [], area: [], area_id: '',
+      areas: [], area_id: '',
       old_code: '',
       button: {
 				name: 'Save',
@@ -82,18 +82,12 @@ export default {
       this.email = this.stokiest.email
       this.lat = this.stokiest.lat
       this.lng = this.stokiest.lng
-      this.stokiest.areas.forEach((area)=>{
-        area_data = {
-          id: area.id,
-          name: area.name
-        }
-        this.area.push(area_data)
-      })
       this.area_id = this.stokiest.area_id
     },
 
     get_data(){
       return {
+        area_id: this.area_id,
         code: this.code,
         name: this.name,
         owner: this.owner,

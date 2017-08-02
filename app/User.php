@@ -60,9 +60,9 @@ class User extends Authenticatable
     public function getAvatarAttribute($value)
     {
         if ($value == null) {
-            return asset(Storage::url('public/avatars/male.png'));
+            return asset('images/male.png');
         } elseif (!Storage::disk('local')->exists($value)) {
-            return asset(Storage::url('public/avatars/male.png'));
+            return asset('images/male.png');
         } else {
             return asset(Storage::url($value));
         }

@@ -7,7 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 class Media extends Model
 {
     protected $fillable = [
-      'mediable_id', 'mediable_type', 'folder', 'filename', 'mime', 'size','extension'
+      'mediable_id', 'mediable_type', 'folder', 'filename', 'mime', 'size','extension', 'caption'
     ];
 
     public function mediable()

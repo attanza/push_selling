@@ -17,6 +17,7 @@ class CreateMediaTable extends Migration
             $table->increments('id');
             $table->integer('mediable_id')->unsigned();
             $table->string('mediable_type', 50);
+            $table->string('caption')->nullable();
             $table->string('folder')->nullable();
             $table->string('extension', 10);
             $table->string('filename')->nullable();

@@ -21,7 +21,8 @@ class MarketController extends Controller
     public function index()
     {
         $this->checkUser();
-        return view('admin.market.index');
+        $areas = Area::select('id', 'name')->orderBy('name')->get();
+        return view('admin.market.index')->withAreas($areas);
     }
 
     public function listing(Request $request)
@@ -65,7 +66,7 @@ class MarketController extends Controller
             $this->saveMarketDB($market, $request);
         } elseif (count($market) > 0) {
             return response()->json([
-              'msg' => 'The Area already registered'
+              'msg' => 'The Market already registered'
             ], 422);
         } else {
             $market = new Market;
@@ -171,6 +172,8 @@ class MarketController extends Controller
             $market->lat = $request->lat;
             $market->lng = $request->lng;
             $market->save();
+            $activity = "Set place ~ $market->name";
+            $this->saveActivity($request, $activity);
             return response()->json([
               'market' => $market
             ], 200);

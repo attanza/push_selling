@@ -1,5 +1,12 @@
 <div id="stokiest_create">
-  <div class="box box-danger">
+  <div class="box box-danger box-solid">
+    <div class="box-header with-border">
+      <h3 class="box-title"><i class="fa fa-info"></i> Stokiest Detail:</h3>
+      <div class="box-tools pull-right">
+        <button type="button" class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-minus"></i>
+        </button>
+      </div>
+    </div>
     <div class="box-body">
       <div class="row">
         <div class="col-md-6">
@@ -35,17 +42,23 @@
             <span class="help-block">{{ errors.first('pic') }}</span>
           </div>
 
-          <div class="form-group" :class="{'has-error': errors.has('area'), 'has-feedback': errors.has('area') }">
-            <label for="area">Area</label>
-            <v-select multiple label="name" :options="areas" v-model="area" placeholder="Select Area"></v-select>
+          <div class="form-group" :class="{'has-error': errors.has('area_id'), 'has-feedback': errors.has('area_id') }">
+            <label for="area_id">Area</label>
+            <select class="form-control" name="area_id" id="area_id" v-model="area_id"
+            v-validate:area_id="'required'" data-vv-as="Area" placeholder="Select Area">
+                <option :value="area.id" v-for="area in areas">{{area.name}}</option>
+            </select>
+            <span v-show="errors.has('area_id')" class="glyphicon glyphicon-warning-sign form-control-feedback" aria-hidden="true"></span>
             <p class="pull-right" style="margin-top: 8px;">
               <a href="javascript:void(0)" @click="show_insert_area_form">
                 <i class="fa fa-plus"></i> Add Area
               </a>
             </p>
-            <span v-show="errors.has('area')" class="glyphicon glyphicon-warning-sign form-control-feedback" aria-hidden="true"></span>
-            <span class="help-block">{{ errors.first('area') }}</span>
+            <span class="help-block">{{ errors.first('area_id') }}</span>
+
           </div>
+
+
         </div><!-- col-md-6 -->
         <div class="col-md-6">
           <div class="form-group" :class="{'has-error': errors.has('phone1'), 'has-feedback': errors.has('phone1') }">

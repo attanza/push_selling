@@ -12,33 +12,18 @@
 
     <section class="content">
       <div class="row">
-        <div class="col-md-5">
+        <div class="col-md-6">
             <stokiest-photo :stokiest_id="{{$stokiest->id}}"></stokiest-photo>
         </div><!-- /.col -->
-
-        <div class="col-md-7">
-          <div class="nav-tabs-custom">
-            <ul class="nav nav-tabs">
-              <li class="active"><a href="#detail" data-toggle="tab">Detail</a></li>
-              <li><a href="#map" data-toggle="tab">Map</a></li>
-            </ul>
-            <div class="tab-content">
-              <div class="active tab-pane" id="detail">
-                <stokiest-edit :area_data="{{$areas}}"></stokiest-edit>
-              </div>
-              <div class="tab-pane" id="map">
-                {{-- <market-map :market="{{$stokiest}}"></<market-map> --}}
-              </div>
-              <!-- /.tab-pane -->
-            </div>
-            <!-- /.tab-content -->
-          </div>
-          <!-- /.nav-tabs-custom -->
+        <div class="col-md-6">
+          <stokiest-edit :area_data="{{$areas}}"></stokiest-edit>
         </div>
-        <!-- /.col -->
       </div>
-      <!-- /.row -->
+      <div class="row">
+        <div class="col-md-12">
+          <stokiest-map :stokiest="{{$stokiest}}"></stokiest-map>
+        </div>
+      </div>
     </section>
-    <!-- /.content -->
   </div>
 @stop

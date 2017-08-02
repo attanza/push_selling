@@ -15,6 +15,7 @@ class CreateStokiestsTable extends Migration
     {
         Schema::create('stokiests', function (Blueprint $table) {
             $table->increments('id');
+            $table->unsignedInteger('area_id');
             $table->string('code', 50);
             $table->string('name', 50);
             $table->string('owner', 50);

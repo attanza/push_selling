@@ -18,7 +18,7 @@
         <div class="col-md-3">
 
           <!-- Profile Image -->
-          <div class="box box-primary">
+          <div class="box box-danger">
             <div class="box-body box-profile">
               @if(Auth::id() == $user->id)
                 <avatar image_class="profile-user-img img-responsive img-circle"
@@ -49,7 +49,7 @@
           <!-- /.box -->
 
           <!-- About Me Box -->
-          <div class="box box-primary">
+          <div class="box box-danger">
             <div class="box-header with-border">
               <h3 class="box-title">Tasks</h3>
             </div>
@@ -94,7 +94,7 @@
             <ul class="nav nav-tabs">
               <li class="active"><a href="#activity" data-toggle="tab">Activity</a></li>
               <li><a href="#target" data-toggle="tab">Sell Target</a></li>
-              <li><a href="#user_detail" data-toggle="tab">Setting</a></li>
+              <li><a href="#user_detail" data-toggle="tab">Detail</a></li>
             </ul>
             <div class="tab-content">
               <div class="active tab-pane" id="activity">
@@ -111,9 +111,12 @@
             <!-- /.tab-content -->
           </div>
           <!-- /.nav-tabs-custom -->
-          <div class="box box-primary">
+          <div class="box box-danger box-solid">
             <div class="box-header with-border">
-              <div class="btn-group">
+              <h3 class="box-title"><i class="fa fa-cog"></i> Settings</h3>
+            </div>
+            <div class="box-body">
+              <div class="btn-group" style="margin-bottom: 20px;">
                 <div class="btn-group">
                   <button class="btn btn-primary" data-toggle="collapse" data-target="#user_detail_data" aria-expanded="false" aria-controls="user_detail_data">
                     Edit Detail</button>
@@ -125,15 +128,6 @@
                     Change Password</button>
                 </div>
               </div>
-
-              {{-- <div class="box-tools pull-right">
-                <button type="button" class="btn btn-box-tool" data-widget="collapse" data-toggle="tooltip" title="Collapse">
-                  <i class="fa fa-minus"></i></button>
-                <button type="button" class="btn btn-box-tool" data-widget="remove" data-toggle="tooltip" title="Remove">
-                  <i class="fa fa-times"></i></button>
-              </div> --}}
-            </div>
-            <div class="box-body">
               <user-detail-edit :user="{{$user}}" :roles="{{$roles}}"></user-detail-edit>
               <upload-avatar :user="{{$user}}"></upload-avatar>
 

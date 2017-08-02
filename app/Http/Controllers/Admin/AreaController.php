@@ -89,22 +89,39 @@ class AreaController extends Controller
         ], 200);
     }
 
-    public function destroy(Request $request, $id)
+    public function checkBeforeDelete($id)
     {
         $area = Area::find($id);
+        if (count($area) < 1) {
+            return response()->json([
+              'msg' => 'Area not found'
+            ], 404);
+        }
+
+        if (count($area->stokiest) > 0 || count($area->markets) > 0) {
+            return response()->json([
+              'status' => 'has stokiest',
+            ], 200);
+        } else {
+            return response()->json([
+              'status' => 'no stokiest',
+            ], 200);
+        }
+    }
+
+    public function destroy(Request $request, $id)
+    {
+        // Find Area
+        $area = Area::find($id);
+        // Delete Relation
+
+        // Save Activity
         $activity = "Delete area $area->name";
         $this->saveActivity($request, $activity);
+        // Delete Area
         $area->delete();
         return response()->json([
           'msg' => 'Area Deleted'
-        ], 200);
-    }
-
-    public function getAreaForDropdown()
-    {
-        $areas = Area::select('id', 'name')->orderBy('name')->get();
-        return response()->json([
-          'areas' => $areas
         ], 200);
     }
 }

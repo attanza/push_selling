@@ -13,16 +13,29 @@ export default {
   },
   data: function data() {
     return {
-      name: '', address: '', description: '',
+      name: '', address: '', description: '', lat:'', lng: '',
       areas: [], area: null, area_id: '',
       button: {
-				name: 'Save',
+				name: 'Edit detail',
 				class: 'fa-floppy-o'
 			},
+      loading: false,
+      area_error: 'The Area field is required',
+
+    }
+  },
+  props: ['area_data'],
+  watch: {
+    area(){
+      if (this.area == null) {
+        this.area_error = 'The Area field is required'
+      } else {
+        this.area_error = ''
+      }
     }
   },
   mounted(){
-    this.get_area()
+    this.areas = this.area_data;
     this.init_data()
     window.eventBus.$on('insert-area', this.after_insert_area)
 
@@ -31,7 +44,7 @@ export default {
   methods: {
     validateBeforeSubmit() {
       this.$validator.validateAll().then(result => {
-        if (result) {
+        if (result && this.area != null) {
           this.submit_data()
           return;
         }
@@ -43,9 +56,7 @@ export default {
 				name: 'Processing',
         class: 'fa-refresh fa-spin'
 			},
-      axios.put('/api/market/'+this.market.id,{
-        name: this.name, address: this.address, description: this.description, area_id: this.area.id
-      }).then((resp)=>{
+      axios.put('/api/market/'+this.market.id, this.get_data()).then((resp)=>{
         if(resp.status == 200){
           // this.reset_form()
           this.reset_button()
@@ -73,17 +84,21 @@ export default {
       this.area_id = this.market.area_id
       this.address = this.market.address
       this.description = this.market.description
+      this.lat = this.market.lat
+      this.lng = this.market.lng
     },
 
-    get_area(){
-      axios.get('/api/area/for/dropdown').then((resp)=>{
-        if(resp.status == 200){
-          resp.data.areas.forEach((area)=>{
-            this.areas.push(area)
-          })
-        }
-      })
+    get_data(){
+      return {
+        name: this.name,
+        area_id: this.area.id,
+        address: this.address,
+        description: this.description,
+        lat: this.lat,
+        lng: this.lng,
+      }
     },
+
     show_insert_form(){
       $("#insert_area").modal('show')
     },
@@ -94,7 +109,7 @@ export default {
 
     reset_button(){
       this.button = {
-				name: 'Save',
+				name: 'Edit detail',
 				class: 'fa-floppy-o'
 			}
     }

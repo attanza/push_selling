@@ -28,8 +28,17 @@ abstract class DuskTestCase extends BaseTestCase
      */
     protected function driver()
     {
-        return RemoteWebDriver::create(
-            'http://push_selling.dev:9515', DesiredCapabilities::chrome()
-        );
+        // return RemoteWebDriver::create(
+        //     'http://push_selling.dev:9515', DesiredCapabilities::chrome()
+        // );
+        $chrome = DesiredCapabilities::chrome();
+        if (config('app.env_docker')) {
+            $chrome->setCapability(
+                ChromeOptions::CAPABILITY,
+                (new ChromeOptions)->addArguments(['--no-sandbox'])
+            );
+        }
+        return RemoteWebDriver::create('http://push_selling.dev:9515', $chrome);
+
     }
 }

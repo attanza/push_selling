@@ -4,6 +4,8 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use Auth;
+use App\Models\Market;
+use App\Models\Stokiest;
 
 class DashboardController extends Controller
 {
@@ -11,9 +13,24 @@ class DashboardController extends Controller
     {
         $role = Auth::user()->roles->first()->slug;
         if ($role == 'admin') {
-            return view('dashboards.admin_dashboard');
+            return view('dashboards.admin_dashboard')->with([
+              'market_maps' => $this->getMarketMap(),
+              'stokiest_maps' => $this->getStokiestMap()
+            ]);
         } else {
             return view('dashboards.other_dashboard');
         }
+    }
+
+    private function getMarketMap()
+    {
+        $data = Market::select('lat', 'lng')->get();
+        return $data;
+    }
+
+    private function getStokiestMap()
+    {
+        $data = Stokiest::select('lat', 'lng')->get();
+        return $data;
     }
 }

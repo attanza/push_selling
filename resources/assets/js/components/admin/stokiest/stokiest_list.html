@@ -27,6 +27,7 @@
           <tr>
             <th>Code</th>
             <th>Name</th>
+            <th>Area</th>
             <th>Phone</th>
             <th>Email</th>
 
@@ -37,11 +38,12 @@
           <tr v-for="stokiest in stokiests">
             <td>{{stokiest.code}}</td>
             <td>{{stokiest.name}}</td>
+            <td><span v-if="stokiest.area">{{stokiest.area.name}}</span></td>
             <td>{{stokiest.phone1}}</td>
             <td>{{stokiest.email}}</td>
             <td>
-              <button type="button" class="btn btn-default btn-sm" @click="show_stokiest(stokiest.code)"><i class="fa fa-eye"></i></button>
-              <button type="button" class="btn btn-danger btn-sm" @click="showModal = true, cur_id=stokiest.id"><i class="fa fa-eye"></i></button>
+              <button type="button" class="btn btn-default btn-sm" @click="show_stokiest(stokiest.code)" v-tooltip="'Show stokiest'"><i class="fa fa-eye"></i></button>
+              <button type="button" class="btn btn-danger btn-sm" @click="showModal = true, cur_id=stokiest.id" v-tooltip="'Delete stokiest'"><i class="fa fa-trash"></i></button>
             </td>
           </tr>
         </tbody>

@@ -25,7 +25,8 @@ Route::group(['middleware' => 'auth'], function(){
   Route::get('export-data/area', 'ExportController@exportArea')->name('export-data.area');
   Route::get('export-data/market', 'ExportController@exportMarket')->name('export-data.market');
   Route::get('export-data/stokiest', 'ExportController@exportStokiest')->name('export-data.stokiest');
-
+  Route::get('export-data/item', 'ExportController@exportItem')->name('export-data.item');
+  Route::get('export-data/outlet', 'ExportController@exportOutlet')->name('export-data.outlet');
 });
 
 Route::group(['namespace' => 'Admin', 'middleware' => 'admin'], function(){
@@ -49,4 +50,18 @@ Route::group(['middleware' => 'auth', 'namespace' => 'Admin', 'prefix' => 'stoki
   Route::get('/', 'StokiestController@index')->name('stokiest.index');
   Route::get('/create', 'StokiestController@create')->name('stokiest.create');
   Route::get('/{code}', 'StokiestController@show')->name('stokiest.show');
+});
+
+// Item
+Route::group(['middleware' => 'auth', 'namespace' => 'Admin', 'prefix' => 'items'], function(){
+  Route::get('/', 'ItemController@index')->name('items.index');
+  Route::get('/create', 'ItemController@create')->name('items.create');
+  Route::get('/{code}', 'ItemController@show')->name('items.show');
+});
+
+// Outlet
+Route::group(['middleware' => 'auth', 'namespace' => 'Admin', 'prefix' => 'outlet'], function(){
+  Route::get('/', 'OutletController@index')->name('outlet.index');
+  Route::get('/create', 'OutletController@create')->name('outlet.create');
+  Route::get('/{code}', 'OutletController@show')->name('outlet.show');
 });

@@ -41,7 +41,7 @@ Route::group(['middleware' => 'auth:api','namespace' => 'Admin', 'prefix'=>'area
   Route::post('/', 'AreaController@store');
   Route::put('/{id}', 'AreaController@update');
   Route::delete('/{id}', 'AreaController@destroy');
-  Route::get('/for/dropdown', 'AreaController@getAreaForDropdown');
+  Route::get('{id}/check', 'AreaController@checkBeforeDelete');
 });
 
 // Market
@@ -62,4 +62,33 @@ Route::group(['middleware' => 'auth:api','namespace' => 'Admin', 'prefix'=>'stok
   Route::delete('/{id}', 'StokiestController@destroy');
   Route::put('/{id}', 'StokiestController@update');
   Route::post('/{id}/set_location', 'StokiestController@setLocation');
+});
+
+// Items
+Route::group(['middleware' => 'auth:api','namespace' => 'Admin', 'prefix'=>'items'], function(){
+  Route::post('/listing', 'ItemController@listing');
+  Route::post('/', 'ItemController@store');
+  Route::post('/{id}/upload', 'ItemController@uploadPhoto');
+  Route::delete('/{id}', 'ItemController@destroy');
+  Route::put('/{id}', 'ItemController@update');
+  Route::get('/medias/{id}', 'ItemController@getMedias');
+});
+
+// Gallery
+Route::group(['middleware' => 'auth:api', 'prefix'=>'gallery'], function(){
+  Route::get('{id}/{model}', 'GalleryController@getMedia');
+  Route::post('{id}/{model}', 'GalleryController@storeMedia');
+  Route::put('{id}/edit_caption', 'GalleryController@editCaption');
+  Route::delete('{id}', 'GalleryController@destroy');
+
+});
+
+// Outlet
+Route::group(['middleware' => 'auth:api','namespace' => 'Admin', 'prefix'=>'outlet'], function(){
+  Route::post('/listing', 'OutletController@listing');
+  Route::post('/', 'OutletController@store');
+  Route::post('/{id}/upload', 'OutletController@uploadPhoto');
+  Route::delete('/{id}', 'OutletController@destroy');
+  Route::put('/{id}', 'OutletController@update');
+  Route::post('/{id}/set_location', 'OutletController@setLocation');
 });

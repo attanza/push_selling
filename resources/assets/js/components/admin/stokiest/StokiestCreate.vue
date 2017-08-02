@@ -13,8 +13,8 @@ export default {
   props: ['area_data'],
   data: () => ({
     code: '', name: '', owner: '', pic: '', phone1: '', phone2: '',
-    email: '', address: '', lat: '', lng: '',
-    areas: [], area: [],
+    email: '', address: '', lat: '', lng: '', area_id: '',
+    areas: [],
     button: {
       name: 'Submit',
       class: 'fa-floppy-o'
@@ -24,7 +24,6 @@ export default {
   mounted(){
     this.areas = this.area_data
     window.eventBus.$on('insert-area', this.after_insert_area)
-
   },
 
   methods: {
@@ -44,6 +43,7 @@ export default {
 			},
       axios.post('/api/stokiest', this.get_data()).then((resp)=>{
         if(resp.status == 200){
+          // console.log(resp);
           window.location.replace('/stokiest/'+resp.data.stokiest.code)
         }
       }).catch(error => {
@@ -57,12 +57,12 @@ export default {
 
     get_data(){
       return {
+        area_id: this.area_id,
         code: this.code,
         name: this.name,
         owner: this.owner,
         pic: this.pic,
         phone1: this.phone1,
-        area: this.area,
         phone2: this.phone2,
         email: this.email,
         address: this.address,

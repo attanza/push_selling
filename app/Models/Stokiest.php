@@ -8,12 +8,12 @@ use Storage;
 class Stokiest extends Model
 {
     protected $fillable = [
-        'code', 'name', 'address', 'owner', 'pic', 'phone1', 'phone2', 'email', 'photo'
+        'code', 'name', 'address', 'owner', 'pic', 'phone1', 'phone2', 'email', 'photo', 'area_id'
     ];
 
-    public function areas()
+    public function area()
     {
-        return $this->belongsToMany('App\Models\Area');
+        return $this->belongsTo('App\Models\Area');
     }
 
     public function medias()

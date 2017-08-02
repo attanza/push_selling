@@ -59,3 +59,34 @@ $factory->define(App\Models\Stokiest::class, function (Faker\Generator $faker) {
     'lng' => $faker->longitude,
   ];
 });
+
+$factory->define(App\Models\Item::class, function (Faker\Generator $faker) {
+  $start_date = Carbon\Carbon::now();
+  $end_date = Carbon\Carbon::now()->addMonths(8);
+
+  return [
+    'code' => $faker->unique()->ean8,
+    'name' => $faker->streetName,
+    'measurement' => $faker->word,
+    'price' => $faker->numberBetween(100000, 200000),
+    'target_by' => $faker->numberBetween(1, 2),
+    'target_count' => $faker->numberBetween(1000000, 5000000),
+    'start_date' => $start_date,
+    'end_date' => $end_date,
+  ];
+});
+
+$factory->define(App\Models\Outlet::class, function (Faker\Generator $faker) {
+  return [
+    'code' => $faker->unique()->ean8,
+    'name' => $faker->streetName,
+    'owner' => $faker->name,
+    'pic' => $faker->name,
+    'phone1' => $faker->e164PhoneNumber,
+    'phone2' => $faker->e164PhoneNumber,
+    'email' => $faker->unique()->email,
+    'address' => $faker->address,
+    'lat' => $faker->latitude,
+    'lng' => $faker->longitude,
+  ];
+});

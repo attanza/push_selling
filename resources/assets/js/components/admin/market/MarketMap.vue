@@ -1,31 +1,35 @@
 <template>
-  <div id="market_map">
-    <label for="location">Location</label>
-    <div id="location">
-      <gmap-autocomplete @place_changed="setPlace"></gmap-autocomplete>
-      <gmap-map :center="location" :zoom="10" style="width: 100%; height: 300px;">
-        <gmap-marker
-          :position="location"
-          :clickable="true"
-          :draggable="true"
-          @click="center=location"
-          @place_changed="setPlace"
-          @position_changed="markerDrag($event)"
-        ></gmap-marker>
-      </gmap-map>
-    </div>
-    <div class="box">
-      <div class="box-body">
-        <button type="button" class="btn btn-danger btn-sm pull-right" @click="showModal = true">
-          <i class="fa fa-map-marker"></i> Set Location
+  <div class="box box-danger box-solid" id="market_map">
+    <div class="box-header with-border">
+      <h3 class="box-title"><i class="fa fa-map-marker"></i> Market Map</h3>
+      <div class="box-tools pull-right">
+        <button type="button" class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-minus"></i>
         </button>
-        <confirm-dialog v-if="showModal" @close="showModal = false" @next_process="set_location"></confirm-dialog>
       </div>
     </div>
-
-    <input type="hidden" name="lat" v-model="location.lat">
-    <input type="hidden" name="long" v-model="location.lng">
-
+    <div class="box-body">
+      <div id="location">
+        <gmap-autocomplete @place_changed="setPlace"></gmap-autocomplete>
+        <gmap-map :center="location" :zoom="12" style="width: 100%; height: 300px;">
+          <gmap-marker
+            :position="location"
+            :clickable="true"
+            :draggable="true"
+            @click="center=location"
+            @place_changed="setPlace"
+            @position_changed="markerDrag($event)"
+          ></gmap-marker>
+        </gmap-map>
+      </div>
+    </div>
+    <div class="box-footer">
+      <button type="button" class="btn btn-danger btn-sm pull-right" @click="showModal = true">
+        <i class="fa fa-map-marker"></i> Set Location
+      </button>
+      <confirm-dialog v-if="showModal" @close="showModal = false" @next_process="set_location"></confirm-dialog>
+      <input type="hidden" name="lat" v-model="location.lat">
+      <input type="hidden" name="long" v-model="location.lng">
+    </div>
   </div>
 </template>
 <script>
@@ -61,20 +65,16 @@ export default {
 
   methods: {
     setPlace(place){
-      console.log(place);
       this.location = {
         lat: place.geometry.location.lat(),
         lng: place.geometry.location.lng()
       }
-      console.log(this.location);
     },
     markerDrag(position){
       this.location = {
         lat: position.lat(),
         lng: position.lng()
       }
-      console.log(this.location);
-
     },
 
     set_location(){

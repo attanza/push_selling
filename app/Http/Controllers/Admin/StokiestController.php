@@ -27,14 +27,14 @@ class StokiestController extends Controller
         ]);
         $query = e($request->input('query'));
         if ($query != '') {
-            $stokiests = Stokiest::with('areas')->where('name', 'LIKE', "%$query%")
+            $stokiests = Stokiest::with('area')->where('name', 'LIKE', "%$query%")
             ->orWhere('email', 'LIKE', "%$query%")->orWhere('address', 'LIKE', "%$query%")
             ->orWhere('pic', 'LIKE', "%$query%")->orWhere('owner', 'LIKE', "%$query%")
             ->orWhere('code', 'LIKE', "%$query%")->orWhere('phone1', 'LIKE', "%$query%")
             ->orWhere('phone2', 'LIKE', "%$query%")
             ->paginate($request->paginate);
         } else {
-            $stokiests = Stokiest::with('areas')->paginate($request->paginate);
+            $stokiests = Stokiest::with('area')->paginate($request->paginate);
         }
         $response = [
             'pagination' => [
@@ -55,7 +55,7 @@ class StokiestController extends Controller
 
     public function create()
     {
-        $areas = Area::doesntHave('stokiests')->orderBy('name')->get();
+        $areas = Area::doesntHave('stokiest')->orderBy('name')->get();
         return view('admin.stokiest.create')->withAreas($areas);
     }
 
@@ -73,12 +73,12 @@ class StokiestController extends Controller
     public function show($code)
     {
         $this->checkUser();
-        $stokiest = Stokiest::with('areas')->where('code', $code)->first();
-        $areas = Area::doesntHave('stokiests')->orderBy('name')->get();
+        $stokiest = Stokiest::with('area')->where('code', $code)->first();
         if (count($stokiest) == 0) {
             return redirect('/stokiest')->withError('No Stokiest found');
         }
-
+        $areas = $this->getArea($stokiest);
+        // dd($areas);
         return view('admin.stokiest.show')->withStokiest($stokiest)
             ->withAreas($areas);
     }
@@ -149,6 +149,7 @@ class StokiestController extends Controller
 
     private function saveData($stokiest, $request)
     {
+        $stokiest->area_id = $request->area_id;
         $stokiest->code = $request->code;
         $stokiest->name = $request->name;
         $stokiest->owner = $request->owner;
@@ -160,15 +161,34 @@ class StokiestController extends Controller
         $stokiest->lat = $request->lat;
         $stokiest->lng = $request->lng;
         $stokiest->save();
-        if (count($request->area) > 0) {
-            // return $request->area;
-            $area_id = [];
-            foreach ($request->area as $data) {
-                array_push($area_id, $data['id']);
+    }
+
+    private function getArea($stokiest)
+    {
+        $data = [];
+        $temp_data = [];
+        $area_data = Area::select('id', 'name')->whereDoesntHave('stokiest')->orderBy('name')->get();
+        if (count($area_data) > 0) {
+            foreach ($area_data as $area) {
+                $temp_data = [
+                  'id' => $area->id,
+                  'name' => $area->name,
+                ];
+                array_push($data, $temp_data);
             }
-            $stokiest->areas()->sync($area_id);
-            $stokiest->save();
         }
+
+        if ($stokiest->has('area')) {
+            $stokiest_area = Area::select('id', 'name')->where('id', $stokiest->area_id)->first();
+            if (count($stokiest_area) > 0) {
+                $temp_data = [
+                  'id' => $stokiest->area->id,
+                  'name' => $stokiest->area->name,
+                ];
+                array_push($data, $temp_data);
+            }
+        }
+        return collect($data);
     }
 
     private function checkUser()
@@ -176,6 +196,30 @@ class StokiestController extends Controller
         $role = Auth::user()->roles()->first()->slug;
         if ($role == 'manager' || $role == 'seller') {
             return redirect('/')->withError('Operation not allowed');
+        }
+    }
+
+    public function setLocation(Request $request, $id)
+    {
+        $this->validate($request, [
+          'lat' => 'numeric',
+          'lng' => 'numeric',
+        ]);
+
+        $stokiest = Stokiest::find($id);
+        if (count($stokiest) == 1) {
+            $stokiest->lat = $request->lat;
+            $stokiest->lng = $request->lng;
+            $stokiest->save();
+            $activity = "Set place ~ $stokiest->name";
+            $this->saveActivity($request, $activity);
+            return response()->json([
+              'stokiest' => $stokiest
+            ], 200);
+        } else {
+            return response()->json([
+              'msg' => 'Stokiest not found'
+            ], 404);
         }
     }
 }

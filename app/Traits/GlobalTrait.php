@@ -43,15 +43,12 @@ trait GlobalTrait
 
         $db->photo = $path[1].$mainFileName;
         $db->save();
-
         // Save Media
         $this->saveMedia($db->id, $model, $path[1], $mainFileName, $file);
     }
 
     public function saveMedia($id, $model, $folder, $filename, $file)
     {
-        // TODO
-        // GET mime, extension, model automaticaly
         $size = Storage::size($folder.$filename);
         $mime = Storage::mimeType($folder.$filename);
         $ext = pathinfo(storage_path().$folder.$filename, PATHINFO_EXTENSION);
@@ -63,7 +60,7 @@ trait GlobalTrait
           'filename' => $filename,
           'extension' => $ext,
           'mime' => $mime,
-          'size' => $size
+          'size' => $size,
         ];
 
         $media = Media::where('mediable_id', $id)->where('mediable_type', $model)->first();
@@ -89,6 +86,16 @@ trait GlobalTrait
         if (count($media) > 0) {
             $this->deletePhotoIfExists($media->folder, $media->filename);
             $media->delete();
+        }
+    }
+
+    public function checkAdmin()
+    {
+        $role_slug = Auth::user()->roles()->first()->slug;
+        if ($role_slug == 'admin' || $role_slug == 'superuser') {
+            return true;
+        } else {
+            return false;
         }
     }
 }

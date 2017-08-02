@@ -26,7 +26,7 @@
               </div>
             </div>
             <div class="box-body">
-              <market-insert-form></market-insert-form>
+              <market-insert-form :area_data="{{$areas}}"></market-insert-form>
               <market-list></market-list>
             </div>
           </div>

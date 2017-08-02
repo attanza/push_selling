@@ -33,4 +33,9 @@ class Market extends Model
             return asset(Storage::url($value));
         }
     }
+
+    public function outlets()
+    {
+        return $this->hasMany('App\Models\Outlet');
+    }
 }

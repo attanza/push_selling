@@ -9,6 +9,8 @@ export const store = new Vuex.Store({
 		avatar: '',
 		current_market: {},
 		current_stokiest: {},
+		current_item: {},
+		current_outlet: {},
 	},
 
 	getters: {
@@ -27,6 +29,13 @@ export const store = new Vuex.Store({
 		},
 		current_stokiest_mutation(state, stokiest){
 			state.current_stokiest = stokiest
+		},
+		current_item_mutation(state, item){
+			state.current_item = item
+		},
+		current_outlet_mutation(state, outlet){
+			state.current_outlet = outlet
 		}
+
 	}
 })

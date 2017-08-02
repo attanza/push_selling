@@ -24,8 +24,9 @@ class StoreStokiestRequest extends FormRequest
     public function rules()
     {
         return [
+            'area_id' => 'required|integer',
             'code' => 'required|max:50|unique:stokiests,code,'.$this->id,
-            'name' => 'required|max:50',
+            'name' => 'required|max:50|unique:stokiests,name,'.$this->id,
             'owner' => 'required|max:50',
             'pic' => 'required|max:50',
             'phone1' => 'required|max:30',

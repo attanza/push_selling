@@ -11,14 +11,18 @@
           <span class="help-block">{{ errors.first('name') }}</span>
         </div>
 
-        <div class="form-group">
+        <div class="form-group" :class="{'has-error': area == null, 'has-feedback': area == null }">
           <label for="area">Area</label>
-            <v-select label="name" :options="areas" v-model="area"></v-select>
+            <v-select label="name" :options="areas" v-model="area" id="area" name="area"
+              required
+            ></v-select>
             <p class="pull-right" style="margin-top: 8px;">
               <a href="javascript:void(0)" @click="show_insert_area_form">
                 <i class="fa fa-plus"></i> Add Area
               </a>
             </p>
+            <span v-if="area == null" class="glyphicon glyphicon-warning-sign form-control-feedback" aria-hidden="true"></span>
+            <span class="help-block">{{ area_error }}</span>
         </div>
 
         <div class="form-group">
@@ -51,7 +55,8 @@ export default {
   data: function data() {
     return {
       name: '', address: '',
-      areas: [], area: '',
+      areas: [], area: null,
+      area_error: 'The Area field is required',
       button: {
 				name: 'Submit',
 				class: 'fa-floppy-o'
@@ -59,8 +64,20 @@ export default {
     }
   },
 
+  props: ['area_data'],
+
+  watch: {
+    area(){
+      if (this.area == null) {
+        this.area_error = 'The Area field is required'
+      } else {
+        this.area_error = ''
+      }
+    }
+  },
+
   mounted(){
-    this.get_area()
+    this.areas = this.area_data;
     window.eventBus.$on('insert-area', this.after_insert_area)
 
   },
@@ -68,7 +85,7 @@ export default {
   methods: {
     validateBeforeSubmit() {
       this.$validator.validateAll().then(result => {
-        if (result) {
+        if (result && this.area != null) {
           this.submit_data()
           return;
         }
@@ -94,6 +111,7 @@ export default {
           $.each(error.response.data, function(key, value){
             toastr.error(value);
           })
+          this.reset_form();
         }
       });
     },
@@ -106,16 +124,6 @@ export default {
 				class: 'fa-floppy-o'
 			},
       $("#market_insert_form").collapse('hide')
-    },
-
-    get_area(){
-      axios.get('/api/area/for/dropdown').then((resp)=>{
-        if(resp.status == 200){
-          resp.data.areas.forEach((area)=>{
-            this.areas.push(area)
-          })
-        }
-      })
     },
 
     show_insert_area_form(){

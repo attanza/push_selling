@@ -12,33 +12,18 @@
 
     <section class="content">
       <div class="row">
-        <div class="col-md-5">
+        <div class="col-md-6">
             <market-photo :market_id="{{$market->id}}"></market-photo>
         </div><!-- /.col -->
-
-        <div class="col-md-7">
-          <div class="nav-tabs-custom">
-            <ul class="nav nav-tabs">
-              <li class="active"><a href="#detail" data-toggle="tab">Detail</a></li>
-              <li><a href="#map" data-toggle="tab">Map</a></li>
-            </ul>
-            <div class="tab-content">
-              <div class="active tab-pane" id="detail">
-                <market-edit></market-edit>
-              </div>
-              <div class="tab-pane" id="map">
-                <market-map :market="{{$market}}"></<market-map>>
-              </div>
-              <!-- /.tab-pane -->
-            </div>
-            <!-- /.tab-content -->
-          </div>
-          <!-- /.nav-tabs-custom -->
+        <div class="col-md-6">
+          <market-edit :area_data="{{$areas}}"></market-edit>
         </div>
-        <!-- /.col -->
       </div>
-      <!-- /.row -->
+      <div class="row">
+        <div class="col-md-12">
+          <market-map :market="{{$market}}"></market-map>
+        </div>
+      </div>
     </section>
-    <!-- /.content -->
   </div>
 @stop

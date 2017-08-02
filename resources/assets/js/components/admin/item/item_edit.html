@@ -1,0 +1,96 @@
+<div class="box box-danger box-solid" id="market_edit">
+  <div class="box-header with-border">
+    <h3 class="box-title">Item Detail:</h3>
+    <div class="box-tools pull-right">
+      <button type="button" class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-minus"></i>
+      </button>
+    </div>
+  </div>
+  <div class="box-body">
+    <div class="row">
+      <div class="col-md-6">
+        <div class="form-group" :class="{'has-error': errors.has('code'), 'has-feedback': errors.has('code') }">
+          <label for="code">Item Code</label>
+          <input name="code" id="code" v-model="code" v-validate:code="'required|max:25'"
+          data-vv-as="Item Code" type="text" class="form-control" placeholder="Item code"
+          autofocus>
+          <span v-show="errors.has('code')" class="glyphicon glyphicon-warning-sign form-control-feedback" aria-hidden="true"></span>
+          <span class="help-block">{{ errors.first('code') }}</span>
+        </div>
+
+        <div class="form-group" :class="{'has-error': errors.has('name'), 'has-feedback': errors.has('name') }">
+          <label for="name">Item Name</label>
+          <input name="name" id="name" v-model="name" v-validate:name="'required|max:150'"
+          data-vv-as="Item Name" type="text" class="form-control" placeholder="Item Name">
+          <span v-show="errors.has('name')" class="glyphicon glyphicon-warning-sign form-control-feedback" aria-hidden="true"></span>
+          <span class="help-block">{{ errors.first('name') }}</span>
+        </div>
+
+        <div class="form-group" :class="{'has-error': errors.has('measurement'), 'has-feedback': errors.has('measurement') }">
+          <label for="measurement">Measurement</label>
+          <input name="measurement" id="measurement" v-model="measurement" v-validate:measurement="'required|max:25'"
+          data-vv-as="Measurement" type="text" class="form-control" placeholder="Measurement">
+          <span v-show="errors.has('measurement')" class="glyphicon glyphicon-warning-sign form-control-feedback" aria-hidden="true"></span>
+          <span class="help-block">{{ errors.first('measurement') }}</span>
+        </div>
+
+        <div class="form-group" :class="{'has-error': errors.has('price'), 'has-feedback': errors.has('price') }">
+          <label for="price">Price</label>
+          <input name="price" id="price" v-model="price" v-validate:price="'numeric'"
+          data-vv-as="Price" type="text" class="form-control" placeholder="Price">
+          <span v-show="errors.has('price')" class="glyphicon glyphicon-warning-sign form-control-feedback" aria-hidden="true"></span>
+          <span class="help-block">{{ errors.first('price') }}</span>
+        </div>
+
+      </div>
+      <div class="col-md-6">
+        <div class="form-group" :class="{'has-error': errors.has('target_by'), 'has-feedback': errors.has('target_by') }">
+          <label for="target_by">Target by</label>
+          <select class="form-control" name="target_by" id="target_by" v-model="target_by" v-validate:target_by="'required|numeric'"
+          data-vv-as="Target by">
+            <option value="1">Quantity</option>
+            <option value="2">Outlet</option>
+          </select>
+          <span v-show="errors.has('target_by')" class="glyphicon glyphicon-warning-sign form-control-feedback" aria-hidden="true"></span>
+          <span class="help-block">{{ errors.first('target_by') }}</span>
+        </div>
+
+        <div class="form-group" :class="{'has-error': errors.has('target_count'), 'has-feedback': errors.has('target_count') }">
+          <label for="target_count">Target Count</label>
+          <input name="target_count" id="target_count" v-model="target_count" v-validate:target_count="'required|numeric'"
+          data-vv-as="Target Count" type="text" class="form-control" placeholder="Target Count">
+          <span v-show="errors.has('target_count')" class="glyphicon glyphicon-warning-sign form-control-feedback" aria-hidden="true"></span>
+          <span class="help-block">{{ errors.first('target_count') }}</span>
+        </div>
+
+        <div class="form-group" :class="{'has-error': errors.has('start_date'), 'has-feedback': errors.has('start_date') }">
+          <label for="start_date">Start Date</label>
+          <input name="start_date" id="start_date" v-model="start_date" v-validate:start_date="'required'"
+          data-vv-as="Start Date" type="date" class="form-control" placeholder="Start Date">
+          <span v-show="errors.has('start_date')" class="glyphicon glyphicon-warning-sign form-control-feedback" aria-hidden="true"></span>
+          <span class="help-block">{{ errors.first('start_date') }}</span>
+        </div>
+
+        <div class="form-group" :class="{'has-error': errors.has('end_date'), 'has-feedback': errors.has('end_date') }">
+          <label for="end_date">End Date</label>
+          <input name="end_date" id="end_date" v-model="end_date" v-validate:end_date="'required'"
+          data-vv-as="End Date" type="date" class="form-control" placeholder="End Date">
+          <span v-show="errors.has('end_date')" class="glyphicon glyphicon-warning-sign form-control-feedback" aria-hidden="true"></span>
+          <span class="help-block">{{ errors.first('end_date') }}</span>
+        </div>
+
+      </div>
+
+    </div>
+    <div class="row">
+        <div class="col-md-12">
+          <button type="button" class="btn btn-danger btn-sm pull-right" @click="validateBeforeSubmit">
+            <i class="fa" v-bind:class="button.class"></i> {{button.name}}
+          </button>
+        </div>
+    </div>
+  </div>
+  <div class="overlay" v-show="loading">
+    <i class="fa fa-refresh fa-spin"></i>
+  </div>
+</div>

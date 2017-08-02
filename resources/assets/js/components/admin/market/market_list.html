@@ -26,6 +26,7 @@
         <thead>
           <tr>
             <th>Name</th>
+            <th>Area</th>
             <th>Address</th>
             <th></th>
           </tr>
@@ -33,11 +34,11 @@
         <tbody>
           <tr v-for="market in markets">
             <td>{{market.name}}</td>
+            <td><span v-if="market.area">{{market.area.name}}</span></td>
             <td>{{market.address}}</td>
             <td>
-              <button type="button" class="btn btn-default btn-sm" @click="show_market(market.slug)"><i class="fa fa-eye"></i></button>
-              <button type="button" class="btn btn-danger btn-sm" @click="delete_market(market.id)"><i class="fa fa-eye"></i></button>
-
+              <button type="button" class="btn btn-default btn-sm" @click="show_market(market.slug)" v-tooltip="'Show market'"><i class="fa fa-eye" ></i></button>
+              <button type="button" class="btn btn-danger btn-sm" @click="showModal = true, cur_id=market.id" v-tooltip="'Delete market'"><i class="fa fa-trash"></i></button>
             </td>
           </tr>
         </tbody>
@@ -78,4 +79,6 @@
       </nav>
     </div>
   </div>
+  <confirm-dialog v-if="showModal" @close="showModal = false" @next_process="delete_market"></confirm-dialog>
+
 </div>

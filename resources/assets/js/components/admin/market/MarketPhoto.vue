@@ -1,5 +1,12 @@
 <template>
-  <div class="box box-primary" id="market_photo">
+  <div class="box box-danger box-solid" id="market_photo">
+    <div class="box-header with-border">
+      <h3 class="box-title"><i class="fa fa-camera"></i> Market Photo</h3>
+      <div class="box-tools pull-right">
+        <button type="button" class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-minus"></i>
+        </button>
+      </div>
+    </div>
     <div class="box-body box-profile">
       <center>
         <img class="img-responsive pad" :src="market.photo" :alt="market.name" v-if="market">

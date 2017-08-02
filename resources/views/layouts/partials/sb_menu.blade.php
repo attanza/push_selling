@@ -2,22 +2,28 @@
   <li class="header">
     {{Auth::user()->roles->first()->name}} Menu
   </li>
-  <li @if(Request::is('dashboard')) class="active" @endif>
+  <li @if(Request::is('dashboard') || Request::is('/')) class="active" @endif>
     <a href="{{route('dashboard.index')}}"><i class="fa fa-dashboard"></i> <span>Dashboard</span></a>
   </li>
   <?php $role = Auth::user()->roles->first()->slug; ?>
   @if($role == 'admin')
-    <li @if(Request::is('users')) class="active" @endif>
-      <a href="{{route('users.index')}}"><i class="fa fa-user"></i> <span>Users</span></a>
-    </li>
     <li @if(Request::is('area')) class="active" @endif>
       <a href="{{route('area.index')}}"><i class="fa fa-map-o"></i> <span>Area</span></a>
+    </li>
+    <li @if(Request::is('items*')) class="active" @endif>
+      <a href="{{route('items.index')}}"><i class="fa fa-cubes"></i> <span>Items</span></a>
     </li>
     <li @if(Request::is('market') || Request::is('market/*')) class="active" @endif>
       <a href="{{route('market.index')}}"><i class="fa fa-balance-scale"></i> <span>Market</span></a>
     </li>
+    <li @if(Request::is('outlet*')) class="active" @endif>
+      <a href="{{route('outlet.index')}}"><i class="fa fa-building-o"></i> <span>Outlet</span></a>
+    </li>
     <li @if(Request::is('stokiest*')) class="active" @endif>
       <a href="{{route('stokiest.index')}}"><i class="fa fa-building"></i> <span>Stokiest</span></a>
+    </li>
+    <li @if(Request::is('users')) class="active" @endif>
+      <a href="{{route('users.index')}}"><i class="fa fa-user"></i> <span>Users</span></a>
     </li>
   @endif
   {{--
