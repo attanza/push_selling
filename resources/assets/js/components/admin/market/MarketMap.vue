@@ -10,7 +10,7 @@
     <div class="box-body">
       <div id="location">
         <gmap-autocomplete @place_changed="setPlace"></gmap-autocomplete>
-        <gmap-map :center="location" :zoom="12" style="width: 100%; height: 300px;">
+        <gmap-map :center="location" :zoom="12" style="width: 100%; height: 30vh;">
           <gmap-marker
             :position="location"
             :clickable="true"

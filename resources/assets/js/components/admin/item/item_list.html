@@ -1,4 +1,4 @@
-<div id="market_list">
+<div id="item_list">
   <!--  Table Utility -->
   <div class="row" style="margin-bottom:20px;">
     <div class="col-sm-4">
@@ -15,7 +15,7 @@
     </div>
     <div class="col-sm-4">
       <div class="pull-right">
-        <input type="text" v-model="query" value="" placeholder="Search ... " @keyup.enter="get_markets(pagination.current_page)">
+        <input type="text" v-model="query" value="" placeholder="Search ... " @keyup="get_items(pagination.current_page)">
       </div>
     </div>
   </div>

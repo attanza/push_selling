@@ -113,7 +113,6 @@ class ItemController extends Controller
                 $media->delete();
             }
         }
-        // Delete Relation if any TODO
         // Save Activity
         $activity = "Delete Item ~ $item->name";
         $this->saveActivity($request, $activity);

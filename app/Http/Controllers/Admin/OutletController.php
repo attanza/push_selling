@@ -136,10 +136,17 @@ class OutletController extends Controller
     public function destroy(Request $request, $id)
     {
         $outlet = Outlet::find($id);
+        // Delete Media and photos
+        if (count($outlet->medias) > 0) {
+            foreach ($outlet->medias as $media) {
+                $this->deletePhotoIfExists($media->folder, $media->filename);
+                $media->delete();
+            }
+        }
+        // Save Activity
         $activity = "Delete stokiest ~ $outlet->name";
         $this->saveActivity($request, $activity);
-        // delete all relations
-        // $this->deleteRelations($outlet);
+
         // Delete Stokiest
         $outlet->delete();
         return response()->json([

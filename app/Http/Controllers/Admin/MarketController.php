@@ -152,6 +152,7 @@ class MarketController extends Controller
     public function destroy(Request $request, $id)
     {
         $market = Market::find($id);
+        $this->deleteMedia($market, 'App\Models\Market');
         $activity = "Delete market ~ $market->name";
         $this->saveActivity($request, $activity);
         $market->delete();

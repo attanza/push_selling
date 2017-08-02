@@ -63,7 +63,7 @@ export default {
           caption: this.caption
         }).then((resp)=>{
           if(resp.status == 200) {
-            window.eventBus.$emit('insert-item-media', resp.data.media)
+            window.eventBus.$emit('insert-outlet-media', resp.data.media)
             toastr.success('Caption Saved');
             this.close_modal();
           }

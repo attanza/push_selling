@@ -20,11 +20,15 @@
         <div class="col-md-12">
           <div class="box box-danger box-solid">
             <div class="box-header with-border">
-              <h3 class="box-title">Item Gallery:</h3>
-              <button class="btn btn-outline btn-sm pull-right"
-              role="button" data-toggle="collapse" href="#add_item_photo" aria-expanded="false" aria-controls="add_item_photo">
-                <i class="fa fa-plus"></i> Add photo
-              </button>
+              <h3 class="box-title"><i class="fa fa-camera"></i> Item Gallery:</h3>
+              <div class="box-tools pull-right">
+                <button class="btn btn-outline btn-sm"
+                role="button" data-toggle="collapse" href="#add_item_photo" aria-expanded="false" aria-controls="add_item_photo">
+                  <i class="fa fa-plus"></i> Add photo
+                </button>
+                <button type="button" class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-minus"></i>
+                </button>
+              </div>
             </div>
             <div class="box-body">
               <add-item-photo :item_id="{{$item->id}}"></add-item-photo>

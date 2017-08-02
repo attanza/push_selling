@@ -130,7 +130,7 @@ export default {
 </script>
 <style lang="scss" scoped>
   .item-image-wrapper {
-    height: 30vh;
+    height: 25vh;
     /*width: 400px;*/
     overflow: hidden;
   }

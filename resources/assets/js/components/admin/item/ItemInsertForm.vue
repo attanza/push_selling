@@ -31,7 +31,6 @@ export default {
 			},
       axios.post('/api/items', this.get_data()).then((resp)=>{
         if(resp.status == 200){
-          console.log(resp);
           this.reset_form()
           toastr.success('Item Saved')
           window.eventBus.$emit('saved-item', resp.data.item)

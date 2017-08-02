@@ -4041,7 +4041,6 @@ Vue.use(__WEBPACK_IMPORTED_MODULE_0_vee_validate___default.a);
         class: 'fa-refresh fa-spin'
       }, axios.post('/api/items', this.get_data()).then(function (resp) {
         if (resp.status == 200) {
-          console.log(resp);
           _this2.reset_form();
           toastr.success('Item Saved');
           window.eventBus.$emit('saved-item', resp.data.item);
@@ -4984,7 +4983,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
           caption: this.caption
         }).then(function (resp) {
           if (resp.status == 200) {
-            window.eventBus.$emit('insert-item-media', resp.data.media);
+            window.eventBus.$emit('insert-outlet-media', resp.data.media);
             toastr.success('Caption Saved');
             _this.close_modal();
           }
@@ -11405,7 +11404,7 @@ exports.push([module.i, "\ntable.sortable thead[data-v-775c18c4] {\n  background
 /***/ (function(module, exports, __webpack_require__) {
 
 exports = module.exports = __webpack_require__("./node_modules/css-loader/lib/css-base.js")();
-exports.push([module.i, "\n.item-image-wrapper[data-v-7be60882] {\n  height: 30vh;\n  /*width: 400px;*/\n  overflow: hidden;\n}\n.item-image-wrapper img[data-v-7be60882] {\n  height: auto;\n  width: 100%;\n}\n.item-media-footer[data-v-7be60882] {\n  border: 1px solid #ccc;\n  border-radius: 5px;\n  padding: 5px;\n  margin-top: -5px;\n  margin-bottom: 10px;\n}\n.item-media-footer .item-caption[data-v-7be60882] {\n    font-weight: 400;\n    word-wrap: break-word;\n}\n", ""]);
+exports.push([module.i, "\n.item-image-wrapper[data-v-7be60882] {\n  height: 25vh;\n  /*width: 400px;*/\n  overflow: hidden;\n}\n.item-image-wrapper img[data-v-7be60882] {\n  height: auto;\n  width: 100%;\n}\n.item-media-footer[data-v-7be60882] {\n  border: 1px solid #ccc;\n  border-radius: 5px;\n  padding: 5px;\n  margin-top: -5px;\n  margin-bottom: 10px;\n}\n.item-media-footer .item-caption[data-v-7be60882] {\n    font-weight: 400;\n    word-wrap: break-word;\n}\n", ""]);
 
 /***/ }),
 
@@ -57779,7 +57778,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
   }), _vm._v(" "), _c('gmap-map', {
     staticStyle: {
       "width": "100%",
-      "height": "300px"
+      "height": "30vh"
     },
     attrs: {
       "center": _vm.location,
@@ -60044,7 +60043,6 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     },
     on: {
       "keyup": function($event) {
-        if (!('button' in $event) && _vm._k($event.keyCode, "enter", 13)) { return null; }
         _vm.get_outlets(_vm.pagination.current_page)
       },
       "input": function($event) {
@@ -60455,7 +60453,6 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     },
     on: {
       "keyup": function($event) {
-        if (!('button' in $event) && _vm._k($event.keyCode, "enter", 13)) { return null; }
         _vm.get_markets(_vm.pagination.current_page)
       },
       "input": function($event) {
@@ -60891,7 +60888,6 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     },
     on: {
       "keyup": function($event) {
-        if (!('button' in $event) && _vm._k($event.keyCode, "enter", 13)) { return null; }
         _vm.get_stokiests(_vm.pagination.current_page)
       },
       "input": function($event) {
@@ -62616,7 +62612,9 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     staticClass: "box-header with-border"
   }, [_c('h3', {
     staticClass: "box-title"
-  }, [_vm._v("Item Detail:")]), _vm._v(" "), _c('div', {
+  }, [_c('i', {
+    staticClass: "fa fa-info"
+  }), _vm._v(" Item Detail:")]), _vm._v(" "), _c('div', {
     staticClass: "box-tools pull-right"
   }, [_c('button', {
     staticClass: "btn btn-box-tool",
@@ -63829,7 +63827,7 @@ if (false) {
 module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
   return _c('div', {
     attrs: {
-      "id": "market_list"
+      "id": "item_list"
     }
   }, [_c('div', {
     staticClass: "row",
@@ -63897,8 +63895,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     },
     on: {
       "keyup": function($event) {
-        if (!('button' in $event) && _vm._k($event.keyCode, "enter", 13)) { return null; }
-        _vm.get_markets(_vm.pagination.current_page)
+        _vm.get_items(_vm.pagination.current_page)
       },
       "input": function($event) {
         if ($event.target.composing) { return; }
@@ -65856,7 +65853,6 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     },
     on: {
       "keyup": function($event) {
-        if (!('button' in $event) && _vm._k($event.keyCode, "enter", 13)) { return null; }
         _vm.get_areas(_vm.pagination.current_page)
       },
       "input": function($event) {
