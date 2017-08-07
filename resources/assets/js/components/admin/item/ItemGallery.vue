@@ -26,7 +26,7 @@ export default {
       imageLightbox: false,
       cur_image: '',
       showModal: false,
-
+      canDelete: false,
     }
   },
 
@@ -61,6 +61,10 @@ export default {
       return pagesArray
     },
 
+    auth_user(){
+      return this.$store.state.user;
+    }
+
   },
 
   mounted() {
@@ -80,6 +84,10 @@ export default {
     this.$on('pagination', function(pagination) {
       this.pagination = pagination
     })
+
+    if (this.auth_user.roles[0].slug == 'admin') {
+      this.canDelete = true;
+    }
 
     window.eventBus.$on('insert-item-media', this.update_media)
     window.eventBus.$on('close-lightbox', this.close_lightbox)

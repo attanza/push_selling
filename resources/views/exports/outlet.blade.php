@@ -22,6 +22,8 @@
       <th>Address</th>
       <th>Latitude</th>
       <th>Longitude</th>
+      <th>Status</th>
+      <th>Verified by</th>
       <th>Registered</th>
   </tr>
   </thead>
@@ -42,6 +44,18 @@
           <td>{{$outlet->address}}</td>
           <td>{{$outlet->lat}}</td>
           <td>{{$outlet->lng}}</td>
+          <td>
+            @if ($outlet->detail->verified == 1)
+              verified
+            @else
+              Not verified
+            @endif
+          </td>
+          <td>
+            @if ($outlet->detail->supervisor)
+              {{$outlet->detail->supervisor->name}}
+            @endif
+          </td>
           <td>{{$outlet->created_at->format('d M Y')}}</td>
         </tr>
       @endforeach

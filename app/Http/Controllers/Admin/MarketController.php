@@ -151,11 +151,27 @@ class MarketController extends Controller
 
     public function destroy(Request $request, $id)
     {
+        // Find Market
         $market = Market::find($id);
+        if (count($market) < 1) {
+            return response()->json([
+              'msg' => 'Market not found'
+            ], 404);
+        }
+        // Check Relation
+        if (count($market->outlets)>0) {
+            return response()->json([
+              'msg' => 'Market cannot be deleted because it was bound to many Outlets'
+            ], 403);
+        }
+        // Delete Photos
         $this->deleteMedia($market, 'App\Models\Market');
+        // Save activity
         $activity = "Delete market ~ $market->name";
         $this->saveActivity($request, $activity);
+        // Delete MArket
         $market->delete();
+        // Return
         return response()->json([
           'msg' => 'Market Deleted'
         ], 200);

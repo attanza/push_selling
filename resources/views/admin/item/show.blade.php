@@ -13,7 +13,11 @@
     <section class="content">
       <div class="row">
         <div class="col-md-12">
-          <item-edit></item-edit>
+          @if (Auth::user()->roles()->first()->slug == 'admin')
+            <item-edit></item-edit>
+          @else
+            @include('admin.item.detail')
+          @endif
         </div>
       </div>
       <div class="row">

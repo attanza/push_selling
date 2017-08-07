@@ -7,23 +7,46 @@
   </li>
   <?php $role = Auth::user()->roles->first()->slug; ?>
   @if($role == 'admin')
-    <li @if(Request::is('area')) class="active" @endif>
+    <li @if(Request::is('area*')) class="active" @endif>
       <a href="{{route('area.index')}}"><i class="fa fa-map-o"></i> <span>Area</span></a>
     </li>
     <li @if(Request::is('items*')) class="active" @endif>
       <a href="{{route('items.index')}}"><i class="fa fa-cubes"></i> <span>Items</span></a>
     </li>
-    <li @if(Request::is('market') || Request::is('market/*')) class="active" @endif>
+    <li @if(Request::is('market*')) class="active" @endif>
       <a href="{{route('market.index')}}"><i class="fa fa-balance-scale"></i> <span>Market</span></a>
-    </li>
-    <li @if(Request::is('outlet*')) class="active" @endif>
-      <a href="{{route('outlet.index')}}"><i class="fa fa-building-o"></i> <span>Outlet</span></a>
     </li>
     <li @if(Request::is('stokiest*')) class="active" @endif>
       <a href="{{route('stokiest.index')}}"><i class="fa fa-building"></i> <span>Stokiest</span></a>
     </li>
-    <li @if(Request::is('users')) class="active" @endif>
+    <li @if(Request::is('users*')) class="active" @endif>
       <a href="{{route('users.index')}}"><i class="fa fa-user"></i> <span>Users</span></a>
+    </li>
+  @elseif ($role == 'supervisor')
+    <li @if(Request::is('seller') || Request::is('seller/*')) class="active" @endif>
+      <a href="{{route('seller.index')}}"><i class="fa fa-user"></i> <span>Seller</span></a>
+    </li>
+    <li @if(Request::is('items*')) class="active" @endif>
+      <a href="{{route('items.index')}}"><i class="fa fa-cubes"></i> <span>Items</span></a>
+    </li>
+    <li @if(Request::is('outlet*')) class="active" @endif>
+      <a href="{{route('outlet.index')}}"><i class="fa fa-building-o"></i> <span>Outlet</span></a>
+    </li>
+    <li @if(Request::is('seller-target') || Request::is('seller-target/*')) class="active" @endif>
+      <a href="{{route('seller-target.index')}}"><i class="fa fa-bullseye"></i> <span>Seller Target</span></a>
+    </li>
+    <li @if(Request::is('transaction*')) class="active" @endif>
+      <a href="{{route('transaction.index')}}"><i class="fa fa-gg"></i> <span>Transaction</span></a>
+    </li>
+  @elseif ($role == 'seller')
+    <li @if(Request::is('outlet*')) class="active" @endif>
+      <a href="{{route('outlet.index')}}"><i class="fa fa-building-o"></i> <span>Outlet</span></a>
+    </li>
+    <li @if(Request::is('transaction*')) class="active" @endif>
+      <a href="{{route('transaction.index')}}"><i class="fa fa-gg"></i> <span>Transaction</span></a>
+    </li>
+    <li @if(Request::is('target*')) class="active" @endif>
+      <a href="{{route('target.index')}}"><i class="fa fa-bullseye"></i> <span>Target</span></a>
     </li>
   @endif
   {{--

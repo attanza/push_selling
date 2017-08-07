@@ -19,4 +19,9 @@ class Outlet extends Model
     {
         return $this->belongsTo('App\Models\Market');
     }
+
+    public function detail()
+    {
+        return $this->hasOne('App\Models\OutletSeller');
+    }
 }

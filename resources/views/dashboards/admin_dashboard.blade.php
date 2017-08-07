@@ -66,16 +66,18 @@
       </div>
 
       <div class="row">
+        @if (count($market_maps)>0)
+          <div class="col-md-6">
+            <markets-map :market_maps_data="{{$market_maps}}"></markets-map>
+          </div>
+        @endif
         <div class="col-md-6">
-          <markets-map :market_maps_data="{{$market_maps}}"></markets-map>
-        </div>
-        <div class="col-md-6">
-          <stokiests-map :stokiest_maps_data="{{$stokiest_maps}}"></stokiests-map>
+          @if (count($stokiest_maps)>0)
+            <stokiests-map :stokiest_maps_data="{{$stokiest_maps}}"></stokiests-map>
+          @endif
         </div>
       </div>
-
     </section>
-
   </div>
 
 @endsection

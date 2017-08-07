@@ -11,10 +11,13 @@ export const store = new Vuex.Store({
 		current_stokiest: {},
 		current_item: {},
 		current_outlet: {},
+		current_transaction: {},
 	},
 
 	getters: {
-
+		auth_user_role(state){
+			return state.user.roles[0].slug
+		}
 	},
 
 	mutations: {
@@ -35,7 +38,9 @@ export const store = new Vuex.Store({
 		},
 		current_outlet_mutation(state, outlet){
 			state.current_outlet = outlet
+		},
+		current_transaction_mutation(state, transaction){
+			state.current_transaction = transaction
 		}
-
 	}
 })

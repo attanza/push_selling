@@ -1,7 +1,7 @@
 <template>
   <div id="outlet_buttons">
     <div class="btn-group">
-      <button type="button" class="btn btn-danger btn-sm" @click="create_outlet()">
+      <button type="button" class="btn btn-danger btn-sm" @click="create_outlet()" v-if="canAdd">
         <i class="fa fa-plus"></i> Add outlet
       </button>
       <button type="button" class="btn btn-success btn-sm" @click="showModal = true"><i class="fa fa-download"></i> Export</button>
@@ -18,7 +18,13 @@ export default {
   },
   data: function data() {
     return {
-      showModal: false
+      showModal: false,
+      canAdd: false,
+    }
+  },
+  mounted(){
+    if (this.role == 'seller') {
+      this.canAdd = true;
     }
   },
   methods: {
@@ -29,6 +35,11 @@ export default {
 
     create_outlet(){
       window.location.replace('/outlet/create')
+    }
+  },
+  computed: {
+    role(){
+      return this.$store.getters.auth_user_role;
     }
   }
 }

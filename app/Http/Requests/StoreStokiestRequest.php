@@ -3,6 +3,7 @@
 namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
+use Auth;
 
 class StoreStokiestRequest extends FormRequest
 {
@@ -13,7 +14,12 @@ class StoreStokiestRequest extends FormRequest
      */
     public function authorize()
     {
-        return true;
+        $role = Auth::user()->roles()->first()->slug;
+        if ($role == 'admin') {
+            return true;
+        } else {
+            return false;
+        }
     }
 
     /**

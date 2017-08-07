@@ -1,0 +1,59 @@
+<div class="box box-danger box-solid" id="transaction_form">
+  <div class="box-header with-border">
+    <h3 class="box-title"><i class="fa fa-info"></i> Transaction Data</h3>
+    <div class="box-tools pull-right">
+      <button type="button" class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-minus"></i>
+      </button>
+    </div>
+  </div>
+  <div class="box-body">
+    <div class="form-group" :class="{'has-error': errors.has('code'), 'has-feedback': errors.has('code') }">
+      <label for="code" class="col-md-2">Transaction Code</label>
+      <div class="col-md-10">
+        <input name="code" id="code" v-model="code" v-validate:code="'required|max:25'"
+        data-vv-as="Transaction Code" type="text" class="form-control" placeholder="Transaction code"
+        autofocus>
+        <span class="help-block">{{ errors.first('code') }}</span>
+      </div>
+    </div>
+
+    <div class="form-group" :class="{'has-error': item == null, 'has-feedback': item == null }">
+      <label for="item" class="col-md-2">Product</label>
+      <div class="col-md-10">
+        <v-select label="name" :options="items" v-model="item" id="item" name="item"></v-select>
+        <span class="help-block">{{ item_error }}</span>
+      </div>
+    </div>
+
+    <div class="form-group" :class="{'has-error': outlet == null, 'has-feedback': outlet == null }">
+      <label for="outlet" class="col-md-2">Outlet</label>
+      <div class="col-md-10">
+        <v-select label="name" :options="outlets" v-model="outlet" id="outlet" name="outlet"></v-select>
+        <span class="help-block">{{ outlet_error }}</span>
+      </div>
+    </div>
+
+    <div class="form-group" :class="{'has-error': errors.has('qty'), 'has-feedback': errors.has('qty') }">
+      <label for="qty" class="col-md-2">Quantity</label>
+      <div class="col-md-10">
+        <input name="qty" id="qty" v-model="qty" v-validate:qty="'required|numeric'"
+        data-vv-as="Quantity" type="text" class="form-control" placeholder="Quantity"
+        >
+        <span class="help-block">{{ errors.first('qty') }}</span>
+      </div>
+    </div>
+
+    <div class="form-group" :class="{'has-error': errors.has('description'), 'has-feedback': errors.has('description') }">
+      <label for="description" class="col-md-2">Description</label>
+      <div class="col-md-10">
+        <textarea name="description" id="description" v-model="description"
+        type="text" class="form-control" placeholder="Description"
+        ></textarea>
+        <span class="help-block">{{ errors.first('description') }}</span>
+      </div>
+    </div>
+  </div>
+  <div class="box-footer">
+    <button class="btn btn-danger pull-right" @click="validateBeforeSubmit" :disabled="disabled"><i class="fa fa-floppy-o"></i> Save</button>
+  </div>
+</div>

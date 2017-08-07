@@ -17,6 +17,10 @@ class DashboardController extends Controller
               'market_maps' => $this->getMarketMap(),
               'stokiest_maps' => $this->getStokiestMap()
             ]);
+        } elseif ($role == 'supervisor') {
+            return view('dashboards.supervisor_dashboard');
+        } elseif ($role == 'seller') {
+            return view('dashboards.seller_dashboard');
         } else {
             return view('dashboards.other_dashboard');
         }

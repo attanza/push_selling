@@ -58,7 +58,7 @@
       <div class="form-group" :class="{'has-error': errors.has('start_date'), 'has-feedback': errors.has('start_date') }">
         <label for="start_date">Start Date</label>
         <input name="start_date" id="start_date" v-model="start_date" v-validate:start_date="'required'"
-        data-vv-as="Start Date" type="date" class="form-control" placeholder="Start Date">
+        data-vv-as="Start Date" type="text" class="form-control" placeholder="Start Date">
         <span v-show="errors.has('start_date')" class="glyphicon glyphicon-warning-sign form-control-feedback" aria-hidden="true"></span>
         <span class="help-block">{{ errors.first('start_date') }}</span>
       </div>
@@ -66,7 +66,7 @@
       <div class="form-group" :class="{'has-error': errors.has('end_date'), 'has-feedback': errors.has('end_date') }">
         <label for="end_date">End Date</label>
         <input name="end_date" id="end_date" v-model="end_date" v-validate:end_date="'required'"
-        data-vv-as="End Date" type="date" class="form-control" placeholder="End Date">
+        data-vv-as="End Date" type="text" class="form-control" placeholder="End Date">
         <span v-show="errors.has('end_date')" class="glyphicon glyphicon-warning-sign form-control-feedback" aria-hidden="true"></span>
         <span class="help-block">{{ errors.first('end_date') }}</span>
       </div>

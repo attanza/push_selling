@@ -1,0 +1,75 @@
+<div class="collapse" id="seller_target_form">
+  <div class="row">
+    <div class="col-sm-6">
+      <div class="form-group" :class="{'has-error': errors.has('name'), 'has-feedback': errors.has('name') }">
+        <label for="name">Target Name</label>
+        <input name="name" v-model="name" id="name" v-validate:name="'required|max:200'"
+        data-vv-as="Target name" type="text" class="form-control" placeholder="Target name" autofocus>
+        <span v-show="errors.has('name')" class="glyphicon glyphicon-warning-sign form-control-feedback" aria-hidden="true"></span>
+        <span class="help-block">{{ errors.first('name') }}</span>
+      </div>
+
+      <div class="form-group" :class="{'has-error': item == null, 'has-feedback': item == null }">
+        <label for="item">Items</label>
+          <v-select label="name" :options="items" v-model="item" id="item" name="item"
+            required
+          ></v-select>
+          <span v-if="item == null" class="glyphicon glyphicon-warning-sign form-control-feedback" aria-hidden="true"></span>
+          <span class="help-block">{{ item_error }}</span>
+      </div>
+
+      <div class="form-group" :class="{'has-error': seller == null, 'has-feedback': seller == null }">
+        <label for="seller">Seller</label>
+          <v-select label="name" :options="sellers" v-model="seller" id="seller" name="seller"
+            required
+          ></v-select>
+          <span v-if="seller == null" class="glyphicon glyphicon-warning-sign form-control-feedback" aria-hidden="true"></span>
+          <span class="help-block">{{ seller_error }}</span>
+      </div>
+    </div>
+    <div class="col-sm-6">
+      <div class="form-group" :class="{'has-error': errors.has('target_count'), 'has-feedback': errors.has('target_count') }">
+        <label for="target_count">Target Count</label>
+        <input name="target_count" v-model="target_count" id="target_count" v-validate:target_count="'required|numeric'"
+        data-vv-as="Target Count" type="text" class="form-control" placeholder="Target Count">
+        <span v-show="errors.has('target_count')" class="glyphicon glyphicon-warning-sign form-control-feedback" aria-hidden="true"></span>
+        <span class="help-block">{{ errors.first('target_count') }}</span>
+      </div>
+
+      <div class="form-group" :class="{'has-error': errors.has('start_date'), 'has-feedback': errors.has('start_date') }">
+        <label for="start_date">Start Date</label>
+        <input name="start_date" v-model="start_date" id="start_date" v-validate:start_date="'required'"
+        data-vv-as="Start Date" type="date" class="form-control" placeholder="Start Date">
+        <span v-show="errors.has('start_date')" class="glyphicon glyphicon-warning-sign form-control-feedback" aria-hidden="true"></span>
+        <span class="help-block">{{ errors.first('start_date') }}</span>
+      </div>
+
+      <div class="form-group" :class="{'has-error': errors.has('end_date'), 'has-feedback': errors.has('end_date') }">
+        <label for="end_date">Start Date</label>
+        <input name="end_date" v-model="end_date" id="end_date" v-validate:end_date="'required'"
+        data-vv-as="Start Date" type="date" class="form-control" placeholder="Start Date">
+        <span v-show="errors.has('end_date')" class="glyphicon glyphicon-warning-sign form-control-feedback" aria-hidden="true"></span>
+        <span class="help-block">{{ errors.first('end_date') }}</span>
+      </div>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-sm-12">
+      <div class="form-group">
+        <label for="description">Description</label>
+        <textarea name="description" id="description" v-model="description" class="form-control" placeholder="Description"></textarea>
+      </div>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-sm-12">
+      <div class="form-group">
+        <button type="button" class="btn btn-default" @click="handleCancel()">Cancel</button>
+        <button type="button" class="btn btn-danger pull-right"
+        @click="validateBeforeSubmit" :disabled="disabled">
+        <i class="fa fa-floppy-o"></i> Save</button>
+      </div>
+    </div>
+  </div>
+  <hr>
+</div>

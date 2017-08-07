@@ -48,7 +48,7 @@
           <td>{{ item.end_date | moment("DD MMM YYYY") }}</td>
           <td>
             <button type="button" class="btn btn-default btn-sm" @click="show_item(item.code)" v-tooltip="'Show item'"><i class="fa fa-eye" ></i></button>
-            <button type="button" class="btn btn-danger btn-sm" @click="showModal = true, cur_id=item.id" v-tooltip="'Delete item'"><i class="fa fa-trash"></i></button>
+            <button type="button" class="btn btn-danger btn-sm" @click="showModal = true, cur_id=item.id" v-tooltip="'Delete item'" v-if="canDelete"><i class="fa fa-trash"></i></button>
           </td>
         </tr>
       </tbody>

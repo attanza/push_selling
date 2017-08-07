@@ -18,9 +18,9 @@ class ItemController extends Controller
 
     public function index()
     {
-        if (!$this->checkAdmin()) {
-            return redirect('/')->withError('Operation not allowed');
-        }
+        // if (!$this->checkAdmin()) {
+        //     return redirect('/')->withError('Operation not allowed');
+        // }
         return view('admin.item.index');
     }
 
@@ -104,8 +104,23 @@ class ItemController extends Controller
 
     public function destroy(Request $request, $id)
     {
+        if (!$this->checkAdmin()) {
+            if ($request->ajax()) {
+                return response()->json([
+                    'msg' => 'Forbidden'
+                ], 403);
+            }
+
+            return redirect('/')->withError('Operation not allowed');
+        }
         // Find Item
         $item = Item::findOrFail($id);
+        // Chek Relation
+        if (count($item->targets) > 0) {
+            return response()->json([
+                'msg' => 'Item cannot be deleted because it is bound to many Seller Targets'
+            ], 403);
+        }
         // Delete Media and photos
         if (count($item->medias) > 0) {
             foreach ($item->medias as $media) {

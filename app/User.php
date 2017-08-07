@@ -67,4 +67,24 @@ class User extends Authenticatable
             return asset(Storage::url($value));
         }
     }
+
+    public function targets()
+    {
+        return $this->hasMany('App\Models\SellerTarget');
+    }
+
+    public function transactions()
+    {
+        return $this->hasMany('App\Models\Transaction');
+    }
+
+    public function outlets()
+    {
+        return $this->hasMany('App\Models\OutletSeller', 'seller_id');
+    }
+
+    public function getRole()
+    {
+        return $this->roles()->first()->slug;
+    }
 }

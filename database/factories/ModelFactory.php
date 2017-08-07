@@ -1,16 +1,4 @@
 <?php
-
-/*
-|--------------------------------------------------------------------------
-| Model Factories
-|--------------------------------------------------------------------------
-|
-| Here you may define all of your model factories. Model factories give
-| you a convenient way to create models for testing and seeding your
-| database. Just tell the factory how a default model should look.
-|
-*/
-
 /** @var \Illuminate\Database\Eloquent\Factory $factory */
 $factory->define(App\User::class, function (Faker\Generator $faker) {
     static $password;
@@ -19,7 +7,7 @@ $factory->define(App\User::class, function (Faker\Generator $faker) {
         'name' => $name,
         'username' => str_slug($name),
         'email' => $faker->unique()->safeEmail,
-        'password' => $password ?: $password = bcrypt('secret'),
+        'password' => $password ?: $password = bcrypt('password'),
         'remember_token' => str_random(10),
     ];
 });
@@ -34,18 +22,15 @@ $factory->define(App\Models\Area::class, function (Faker\Generator $faker) {
 $factory->define(App\Models\Market::class, function (Faker\Generator $faker) {
   $name = $faker->city;
   return [
-    'area_id' => 1,
     'name' => $name,
     'slug' => str_slug($name),
     'address' => $faker->address,
     'lat' => $faker->latitude,
     'lng' => $faker->longitude,
-
   ];
 });
 
 $factory->define(App\Models\Stokiest::class, function (Faker\Generator $faker) {
-  $name = $faker->city;
   return [
     'code' => $faker->unique()->ean8,
     'name' => $faker->company,
@@ -70,7 +55,7 @@ $factory->define(App\Models\Item::class, function (Faker\Generator $faker) {
     'measurement' => $faker->word,
     'price' => $faker->numberBetween(100000, 200000),
     'target_by' => $faker->numberBetween(1, 2),
-    'target_count' => $faker->numberBetween(1000000, 5000000),
+    'target_count' => $faker->numberBetween(1000, 5000),
     'start_date' => $start_date,
     'end_date' => $end_date,
   ];
@@ -89,4 +74,24 @@ $factory->define(App\Models\Outlet::class, function (Faker\Generator $faker) {
     'lat' => $faker->latitude,
     'lng' => $faker->longitude,
   ];
+});
+
+$factory->define(App\Models\SellerTarget::class, function (Faker\Generator $faker) {
+  $start_date = Carbon\Carbon::now();
+  $end_date = Carbon\Carbon::now()->addMonths(6);
+  return [
+    'name' => $faker->sentence,
+    'target_count' => $faker->numberBetween(1000, 5000),
+    'start_date' => $start_date,
+    'end_date' => $end_date,
+    'description' => $faker->paragraph
+  ];
+});
+
+$factory->define(App\Models\Transaction::class, function (Faker\Generator $faker) {
+    return [
+        'code' => $faker->unique()->ean8,
+        'qty' => $faker->numberBetween(100, 300),
+        'description' => $faker->paragraph
+    ];
 });

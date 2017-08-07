@@ -63,12 +63,15 @@ export default {
       axios.post('/api/area', {
         name: this.name, description: this.description
       }).then((resp)=>{
-        this.name = ''
-        this.description = ''
-        toastr.success('Area Saved')
-        window.eventBus.$emit('insert-area', resp.data.area)
-        $("#insert_area").modal('hide')
-        this.disabled = false
+        // console.log(resp);
+        if (resp.status == 200) {
+          this.name = ''
+          this.description = ''
+          toastr.success('Area Saved')
+          window.eventBus.$emit('insert-area', resp.data.area)
+          $("#insert_area").modal('hide')
+          this.disabled = false
+        }
 
       }).catch(error => {
         if (error.response) {

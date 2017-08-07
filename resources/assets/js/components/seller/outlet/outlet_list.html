@@ -30,6 +30,8 @@
             <th>Market</th>
             <th>Phone</th>
             <th>Email</th>
+            <th>Status</th>
+            <th>Registered by</th>
             <th></th>
           </tr>
         </thead>
@@ -41,8 +43,26 @@
             <td>{{outlet.phone1}}</td>
             <td>{{outlet.email}}</td>
             <td>
+              <span v-if="outlet.detail && outlet.detail.verified == 1">
+                <span class="label label-success">Verified</span>
+              </span>
+              <span v-else-if="outlet.detail && outlet.detail.verified == 0 && role == 'supervisor'">
+                <button class="btn btn-warning btn-sm" @click="showVerifyModal = true, cur_id=outlet.id" v-tooltip="'Verify this outlet'">
+                  Verfify
+                </button>
+              </span>
+              <span v-else>
+                <span class="label label-default">Not verified</span>
+              </span>
+            </td>
+            <td>
+              <span v-if="outlet.detail.seller">
+                <a href="javascript:void(0)" @click="show_seller(outlet.detail.seller.username)">{{outlet.detail.seller.name}}</a>
+              </span>
+            </td>
+            <td>
               <button type="button" class="btn btn-default btn-sm" @click="show_outlet(outlet.code)" v-tooltip="'Show outlet'"><i class="fa fa-eye"></i></button>
-              <button type="button" class="btn btn-danger btn-sm" @click="showModal = true, cur_id=outlet.id" v-tooltip="'Delete outlet'"><i class="fa fa-trash"></i></button>
+              <button type="button" class="btn btn-danger btn-sm" @click="showModal = true, cur_id=outlet.id" v-tooltip="'Delete outlet'" v-if="canDelete"><i class="fa fa-trash"></i></button>
             </td>
           </tr>
         </tbody>
@@ -84,4 +104,6 @@
     </div>
   </div>
   <confirm-dialog v-if="showModal" @close="showModal = false" @next_process="delete_outlet"></confirm-dialog>
+  <confirm-verify v-if="showVerifyModal" @close="showVerifyModal = false" @next_process="getVerified"></confirm-verify>
+
 </div>

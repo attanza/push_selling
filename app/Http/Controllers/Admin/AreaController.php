@@ -75,7 +75,7 @@ class AreaController extends Controller
         $this->saveActivity($request, $activity);
         return response()->json([
             'area' => $area
-        ]);
+        ], 200);
     }
 
     public function update(StoreAreaRequest $request, $id)
@@ -114,7 +114,11 @@ class AreaController extends Controller
         // Find Area
         $area = Area::find($id);
         // Delete Relation
-
+        if (count($area->stokiest)>0 || count($area->markets)>0) {
+            return response()->json([
+              'status' => 'Area cannot be deleted because it was bound to a Stokiest or many Markets',
+            ], 403);
+        }
         // Save Activity
         $activity = "Delete area $area->name";
         $this->saveActivity($request, $activity);

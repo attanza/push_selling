@@ -64,10 +64,11 @@ export default {
       axios.post('/api/area', {
         name: this.name, description: this.description
       }).then((resp)=>{
-        window.eventBus.$emit('insert-area', resp.data.area)
-        toastr.success('Area Saved')
-        this.handleCancel()
-
+        if (resp.status == 200) {
+          window.eventBus.$emit('insert-area', resp.data.area)
+          toastr.success('Area Saved')
+          this.handleCancel()
+        }
       }).catch(error => {
         if (error.response) {
           $.each(error.response.data, function(key, value){

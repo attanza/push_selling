@@ -15,7 +15,7 @@
           <div class="col-xs-4">
             <div class="btn-group pull-right" role="group" aria-label="...">
               <button type="button" v-tooltip="'Edit caption'" class="btn btn-primary btn-xs" @click="edit_media(media)"><i class="fa fa-edit"></i></button>
-              <button type="button" v-tooltip="'Delete photo'" class="btn btn-danger btn-xs" @click="showModal = true, cur_image = media"><i class="fa fa-trash"></i></button>
+              <button type="button" v-tooltip="'Delete photo'" class="btn btn-danger btn-xs" @click="showModal = true, cur_image = media" v-if="canDelete"><i class="fa fa-trash"></i></button>
             </div>
           </div>
         </div>

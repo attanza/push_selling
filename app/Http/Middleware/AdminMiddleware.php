@@ -16,10 +16,15 @@ class AdminMiddleware
      */
     public function handle($request, Closure $next)
     {
-        if (Auth::check() && Auth::user()->roles()->first()->slug == 'admin') {
-            return $next($request);
+        if (Auth::check()) {
+            $role = Auth::user()->roles()->first()->slug;
+            if ($role == 'admin') {
+                return $next($request);
+            } else {
+                return redirect('/dashboard')->withError('Oops ... Operation not allowed');
+            }
         } else {
-            return redirect('/dashboard')->withError('Oops ... Operation not allowed');
+            return redirect('/login');
         }
     }
 }

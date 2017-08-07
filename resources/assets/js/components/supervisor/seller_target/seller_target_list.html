@@ -1,0 +1,92 @@
+<div id="seller_target_list">
+  <div class="row" style="margin-bottom:20px;">
+    <div class="col-sm-4">
+      Show
+      <select v-model="paginate" @change="get_seller_targets(pagination.current_page)">
+        <option value="10">10</option>
+        <option value="25">25</option>
+        <option value="50">50</option>
+        <option value="100">100</option>
+      </select>
+      entries
+    </div>
+    <div class="col-sm-4">
+
+    </div>
+    <div class="col-sm-4">
+      <div class="pull-right">
+        <input type="text" v-model="query" value="" placeholder="Search ... " @keyup="get_seller_targets(pagination.current_page)">
+      </div>
+    </div>
+  </div>
+  <div class="table-responsive">
+    <table class="table table-hover table-condensed sortable" id="seller_target_table">
+      <thead>
+        <tr>
+          <th>Name</th>
+          <th>Item</th>
+          <th>Seller</th>
+          <th>Target Count</th>
+          <th>Measurement</th>
+          <th>Start Date</th>
+          <th>End Date</th>
+          <th>Creator</th>
+          <th></th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr v-for="seller_target in seller_targets">
+          <td>{{seller_target.name}}</td>
+          <td><span v-if="seller_target.item">{{seller_target.item.name}}</span></td>
+          <td><span v-if="seller_target.seller">{{seller_target.seller.name}}</span></td>
+          <td>{{seller_target.target_count}}</td>
+          <td><span v-if="seller_target.item">{{seller_target.item.measurement}}</span></td>
+          <td>{{ seller_target.start_date | moment("DD MMM YYYY") }}</td>
+          <td>{{ seller_target.end_date | moment("DD MMM YYYY") }}</td>
+          <td><span v-if="seller_target.creator">{{seller_target.creator.name}}</span></td>
+          <td>
+            <button type="button" class="btn btn-default btn-sm" @click="edit_data(seller_target)" v-tooltip="'Edit Target'"><i class="fa fa-pencil"></i></button>
+            <button type="button" class="btn btn-danger btn-sm" @click="showModal = true, cur_id=seller_target.id" v-tooltip="'Delete Target'"><i class="fa fa-trash"></i></button>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <!-- Table Navigation -->
+  <div class="row">
+    <div class="col-sm-6">
+      <p>Showing {{pagination.from}} to {{pagination.to}} of {{pagination.total}} entries</p>
+    </div>
+    <div class="col-sm-6">
+      <nav class="pull-right">
+          <ul class="pagination">
+              <li v-if="pagination.current_page > 1">
+                  <a href="javascript:void(0)" aria-label="First" @click.prevent="changePage(pagination.current_page = 1)">
+                      <i class="fa fa-step-backward"></i>
+                  </a>
+              </li>
+              <li v-if="pagination.current_page > 1">
+                  <a href="javascript:void(0)" aria-label="Previous" @click.prevent="changePage(pagination.current_page - 1)">
+                      <i class="fa fa-chevron-left"></i>
+                  </a>
+              </li>
+              <li v-for="page in pagesNumber" v-bind:class="[page == isActived ? 'active' : '']">
+                  <a href="#" @click.prevent="changePage(page)">{{page}}</a>
+              </li>
+              <li v-if="pagination.current_page < pagination.last_page">
+                  <a href="javascript:void(0)" aria-label="Next" @click.prevent="changePage(pagination.current_page + 1)">
+                      <i class="fa fa-chevron-right"></i>
+                  </a>
+              </li>
+              <li v-if="pagination.current_page < pagination.last_page">
+                  <a href="javascript:void(0)" aria-label="Last" @click.prevent="changePage(pagination.current_page = pagination.last_page)">
+                      <i class="fa fa-step-forward"></i>
+                  </a>
+              </li>
+          </ul>
+      </nav>
+    </div>
+  </div>
+  <confirm-dialog v-if="showModal" @close="showModal = false" @next_process="delete_area"></confirm-dialog>
+</div>

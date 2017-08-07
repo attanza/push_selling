@@ -9,6 +9,21 @@ Route::post('logout','Auth\LoginController@logout')->name('logout');
 Route::get('forgot-password', 'PasswordUtilityController@getForgotPassword')->name('forgot-password');
 Route::post('forgot-password', 'PasswordUtilityController@postForgotPassword')->name('forgot-password');
 
+Route::get('test/mail/view', function(){
+  $transaction = App\Models\Transaction::find(1);
+  // return $transaction->outlet->market->area->stokiest;
+  $stokiest = $transaction->outlet->market->area->stokiest;
+  $market = $transaction->outlet->market;
+  $today = Carbon\Carbon::now();
+  // return view('emails.mail_master_2');
+  return view('emails.transaction_send_order_to_stokiest')->with([
+      'transaction' => $transaction,
+      'stokiest' => $stokiest,
+      'today' => $today,
+      'market' => $market,
+  ]);
+});
+
 Route::group(['middleware' => 'guest'], function(){
   Route::get('login', 'Auth\LoginController@showLoginForm');
   Route::post('login', 'Auth\LoginController@login')->name('login');
@@ -27,6 +42,10 @@ Route::group(['middleware' => 'auth'], function(){
   Route::get('export-data/stokiest', 'ExportController@exportStokiest')->name('export-data.stokiest');
   Route::get('export-data/item', 'ExportController@exportItem')->name('export-data.item');
   Route::get('export-data/outlet', 'ExportController@exportOutlet')->name('export-data.outlet');
+  Route::get('export-data/seller-target', 'ExportController@exportSellerTarget')->name('export-data.seller-target');
+  Route::get('export-data/transaction/{dates}', 'ExportController@exportTransaction')->name('export-data.transaction');
+  Route::get('export-data/{code}/transaction/', 'ExportController@exportTransactionPdf')->name('export-data.transaction-pdf');
+
 });
 
 Route::group(['namespace' => 'Admin', 'middleware' => 'admin'], function(){
@@ -35,7 +54,7 @@ Route::group(['namespace' => 'Admin', 'middleware' => 'admin'], function(){
 });
 
 // Area
-Route::group(['middleware' => 'auth', 'namespace' => 'Admin', 'prefix' => 'area'], function(){
+Route::group(['middleware' => 'admin', 'namespace' => 'Admin', 'prefix' => 'area'], function(){
   Route::get('/', 'AreaController@index')->name('area.index');
 });
 
@@ -46,7 +65,7 @@ Route::group(['middleware' => 'auth', 'namespace' => 'Admin', 'prefix' => 'marke
 });
 
 // Stokiest
-Route::group(['middleware' => 'auth', 'namespace' => 'Admin', 'prefix' => 'stokiest'], function(){
+Route::group(['middleware' => 'admin', 'namespace' => 'Admin', 'prefix' => 'stokiest'], function(){
   Route::get('/', 'StokiestController@index')->name('stokiest.index');
   Route::get('/create', 'StokiestController@create')->name('stokiest.create');
   Route::get('/{code}', 'StokiestController@show')->name('stokiest.show');
@@ -59,8 +78,34 @@ Route::group(['middleware' => 'auth', 'namespace' => 'Admin', 'prefix' => 'items
   Route::get('/{code}', 'ItemController@show')->name('items.show');
 });
 
+
+
+// Supervisors
+Route::group(['middleware' => 'supervisor', 'namespace' => 'Supervisor'], function(){
+  Route::group(['prefix' => 'seller'], function(){
+    Route::get('/', 'SellerController@index')->name('seller.index');
+    Route::get('/create', 'SellerController@create')->name('seller.create');
+  });
+  Route::group(['prefix' => 'seller-target'], function(){
+    Route::get('/', 'SellerTargetController@index')->name('seller-target.index');
+    Route::get('/create', 'SellerTargetController@create')->name('seller-target.create');
+  });
+});
+
+// Seller
+Route::group(['middleware' => 'seller', 'namespace' => 'Seller'], function(){
+  Route::group(['prefix' => 'target'], function(){
+    Route::get('/', 'TargetController@index')->name('target.index');
+  });
+  Route::group(['prefix' => 'transaction'], function(){
+    Route::get('/', 'TransactionController@index')->name('transaction.index');
+    Route::get('/create', 'TransactionController@create')->name('transaction.create');
+    Route::get('/{code}', 'TransactionController@show')->name('transaction.show');
+  });
+});
+
 // Outlet
-Route::group(['middleware' => 'auth', 'namespace' => 'Admin', 'prefix' => 'outlet'], function(){
+Route::group(['middleware' => 'auth', 'namespace' => 'Seller', 'prefix' => 'outlet'], function(){
   Route::get('/', 'OutletController@index')->name('outlet.index');
   Route::get('/create', 'OutletController@create')->name('outlet.create');
   Route::get('/{code}', 'OutletController@show')->name('outlet.show');

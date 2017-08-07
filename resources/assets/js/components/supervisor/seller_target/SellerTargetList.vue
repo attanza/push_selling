@@ -1,15 +1,15 @@
-<template src="./outlet_list.html"></template>
+<template src="./seller_target_list.html"></template>
 <script>
 import ConfirmDialog from "./../../ConfirmDialog";
 
 export default {
-  name: "outlet_list",
+  name: "seller_target_list",
   components: {
     'confirm-dialog': ConfirmDialog
   },
   data: function data() {
     return {
-      outlets: [],
+      seller_targets: [],
       pagination: {
         total: 0,
         per_page: 2,
@@ -20,8 +20,8 @@ export default {
       offset: 2,
       paginate: 10,
       query: '',
+      cur_id: '',
       showModal: false,
-      cur_id: ''
     }
   },
 
@@ -57,50 +57,57 @@ export default {
   },
 
   mounted() {
-    this.get_outlets(this.pagination.current_page)
-    this.$on('outlets', function(outlets) {
-      this.outlets = outlets
+    this.get_seller_targets(this.pagination.current_page)
+    this.$on('seller_targets', function(seller_targets) {
+      this.seller_targets = seller_targets
     })
     this.$on('pagination', function(pagination) {
       this.pagination = pagination
     })
-    window.eventBus.$on('saved-outlet', this.update_outlet)
+    window.eventBus.$on('update_seller_target', this.update_seller_targets);
   },
 
   methods: {
-    get_outlets(page) {
+    get_seller_targets(page) {
       var vm = this
-      axios.post('/api/outlet/listing?page=' + page, {
+      axios.post('/api/seller-target/listing?page=' + page, {
         paginate: this.paginate,
         query: this.query
       }).then((resp) => {
-        vm.$emit('outlets', resp.data.outlets.data)
+        vm.$emit('seller_targets', resp.data.seller_targets.data)
         vm.$emit('pagination', resp.data.pagination)
       })
     },
 
     changePage(page) {
       this.pagination.current_page = page
-      this.get_outlets(page)
+      this.get_seller_targets(page)
     },
 
-    update_outlet(data) {
-      this.outlets.unshift(data)
+    show_seller_target(username) {
+      window.location.replace('profile/' + username)
     },
 
-    show_outlet(code) {
-      window.location.replace('/outlet/' + code)
+    update_seller_targets(){
+      this.get_seller_targets(this.pagination.current_page);
     },
-
-    delete_outlet() {
-      axios.delete('/api/outlet/' + this.cur_id).then((resp) => {
+    delete_area(){
+      axios.delete('/api/seller-target/'+this.cur_id).then((resp)=>{
         if (resp.status == 200) {
-          toastr.success(resp.data.msg)
-          this.outlet = []
-          this.get_outlets(this.pagination.current_page)
-          this.showModal = false
+          toastr.success(resp.data.msg);
+          this.showModal = false;
+          this.get_seller_targets(this.pagination.current_page);
         }
-      })
+      }).catch(error => {
+        if (error.response) {
+          $.each(error.response.data, function(key, value){
+            toastr.error(value);
+          })
+        }
+      });
+    },
+    edit_data(seller_target){
+      window.eventBus.$emit('edit-seller-target', seller_target)
     }
   }
 }

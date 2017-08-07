@@ -25,7 +25,7 @@ class ProfileController extends Controller
             $user->detail()->create([]);
         }
 
-        if (Auth::user()->username == $username || Auth::user()->roles()->first()->slug == 'admin') {
+        if ($this->checkIfCanAccess($user)) {
             $roles = Role::select('id', 'name')->get();
             $user = User::with('detail')->where('username', $username)->first();
             return view('profile.index')->with([
@@ -33,7 +33,7 @@ class ProfileController extends Controller
                 'roles' => $roles
             ]);
         } else {
-            return redirect('/dashboard')->withError('Operation not allowed');
+            return redirect('/')->withError('Operation not allowed');
         }
     }
 
@@ -71,62 +71,59 @@ class ProfileController extends Controller
 
     public function update(StoreUserRequest $request, $id)
     {
-        // return $request->all();
+        // Save User
+        $user = User::find($id);
+        $user->update([
+            'name' => $request->input('name'),
+            'username' => $request->input('username'),
+            'email' => $request->input('email'),
+            'is_active' => $request->input('is_active')
+        ]);
 
-        if (Auth::user()->id == $id || Auth::user()->roles()->first()->slug == 'admin') {
-            // Save User
-            $user = User::find($id);
-            $user->update([
-                'name' => $request->input('name'),
-                'username' => $request->input('username'),
-                'email' => $request->input('email'),
-                'is_active' => $request->input('is_active')
-            ]);
+        // Save User Detail
+        $user_detail = $user->detail()->update([
+            'ktp' => $request->ktp,
+            'gender' => $request->gender,
+            'dob' => $request->dob,
+            'phone1' => $request->phone1,
+            'phone2' => $request->phone2,
+            'address' => $request->address
+        ]);
 
-            // Save User Detail
-            $user_detail = $user->detail()->update([
-                'ktp' => $request->ktp,
-                'gender' => $request->gender,
-                'dob' => $request->dob,
-                'phone1' => $request->phone1,
-                'phone2' => $request->phone2,
-                'address' => $request->address
-            ]);
+        // Save User role
+        DB::table('role_user')
+            ->where('user_id', $user->id)
+            ->update(['role_id' => $request->role]);
 
-            // Save User role
-            DB::table('role_user')
-                ->where('user_id', $user->id)
-                ->update(['role_id' => $request->role]);
-
-            if ($user->id == Auth::id()) {
-                $activity = "Updating his/her own User Data";
-            } else {
-                $activity = "Updating $user->email user data";
-            }
-
-            $this->saveActivity($request, $activity);
-
-            if ($request->ajax()) {
-                return response()->json([
-                    'msg'=>'Saving data Success',
-                    'user' => User::with('detail')->find($user->id)
-                ], 200);
-            }
+        if ($user->id == Auth::id()) {
+            $activity = "Updating his/her own User Data";
         } else {
-            return redirect('/dashboard')->withError('Operation not allowed');
+            $activity = "Updating $user->email user data";
+        }
+
+        $this->saveActivity($request, $activity);
+
+        if ($request->ajax()) {
+            return response()->json([
+                'msg'=>'Saving data Success',
+                'user' => User::with('detail')->find($user->id)
+            ], 200);
         }
     }
 
-    private function checkUser($username)
+    private function checkIfCanAccess($user)
     {
-        return $username;
+        $auth_role = Auth::user()->roles()->first()->slug;
+        $user_role = $user->roles()->first()->slug;
 
-        $user = User::where('username', $username)->first();
-        if (!$user) {
-            return redirect('/')->withError('No user found');
-        }
-        if (!$user->detail) {
-            $user->detail()->create([]);
+        if ($user->id == Auth::id()) {
+            return true;
+        } elseif ($auth_role == 'admin') {
+            return true;
+        } elseif ($auth_role == 'supervisor' && $user_role == 'seller') {
+            return true;
+        } else {
+            return false;
         }
     }
 }

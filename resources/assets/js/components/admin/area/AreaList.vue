@@ -130,7 +130,14 @@ export default {
             this.get_areas(this.pagination.current_page);
             toastr.success(resp.data.msg);
           }
-        })
+        }).catch(error => {
+          if (error.response) {
+            $.each(error.response.data, function(key, value){
+              toastr.error(value);
+            })
+            this.showModal = false;
+          }
+        });
       },
 
   }

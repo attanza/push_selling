@@ -25,8 +25,8 @@ export default {
   mounted(){
     this.init_data()
     if(this.auth_user.roles[0].slug == 'admin'){
-      this.checkAdmin = true
-    }
+      this.checkAdmin = true;
+    } 
   },
 
   methods: {

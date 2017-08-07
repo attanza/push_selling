@@ -22,7 +22,8 @@ export default {
       paginate: 10,
       query: '',
       showModal: false,
-      cur_id: ''
+      cur_id: '',
+      canDelete: false,
     }
   },
 
@@ -55,9 +56,16 @@ export default {
       return pagesArray
     },
 
+    auth_user(){
+      return this.$store.state.user;
+    }
+
   },
 
   mounted() {
+    if (this.auth_user.roles && this.auth_user.roles[0].slug == 'admin') {
+      this.canDelete = true;
+    }
     this.get_items(this.pagination.current_page)
     this.$on('items', function(items) {
       this.items = items
@@ -100,7 +108,14 @@ export default {
           this.get_items(this.pagination.current_page);
           toastr.success(resp.data.msg);
         }
-      })
+      }).catch(error => {
+        if (error.response) {
+          $.each(error.response.data, function(key, value){
+            toastr.error(value);
+          })
+          this.showModal = false;
+        }
+      });
     },
 
     num_format(n) {

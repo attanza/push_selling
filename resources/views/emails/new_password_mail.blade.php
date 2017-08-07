@@ -6,14 +6,14 @@
   <p>
     You have been registered in our system with following credential:
   </p>
-  <table style="width=100%">
+  <table style="width: 100%;">
     <tr>
-      <td width="40%">Your Email</td>
-      <td width="60%">{{$user->email}}</td>
+      <th width="20%" align="left">Your Email</th>
+      <td width="80%">{{$user->email}}</td>
     </tr>
     <tr>
-      <td>Your Password</td>
-      <td>{{$password}}</td>
+      <th width="20%" align="left">Your Password</th>
+      <td width="80%">{{$password}}</td>
     </tr>
   </table>
   <br>

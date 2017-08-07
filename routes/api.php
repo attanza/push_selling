@@ -84,11 +84,38 @@ Route::group(['middleware' => 'auth:api', 'prefix'=>'gallery'], function(){
 });
 
 // Outlet
-Route::group(['middleware' => 'auth:api','namespace' => 'Admin', 'prefix'=>'outlet'], function(){
+Route::group(['middleware' => 'auth:api','namespace' => 'Seller', 'prefix'=>'outlet'], function(){
   Route::post('/listing', 'OutletController@listing');
   Route::post('/', 'OutletController@store');
   Route::post('/{id}/upload', 'OutletController@uploadPhoto');
   Route::delete('/{id}', 'OutletController@destroy');
   Route::put('/{id}', 'OutletController@update');
+  Route::put('/{id}/verify', 'OutletController@setVerify');
   Route::post('/{id}/set_location', 'OutletController@setLocation');
+});
+
+// Supervisor
+
+Route::group(['middleware' => ['auth:api', 'supervisor'],'namespace' => 'Supervisor'], function(){
+  Route::group(['prefix'=>'seller'], function(){
+    Route::post('listing', 'SellerController@listing');
+  });
+  Route::group(['prefix'=>'seller-target'], function(){
+    Route::post('/listing', 'SellerTargetController@listing');
+    Route::post('/', 'SellerTargetController@store');
+    Route::delete('/{id}', 'SellerTargetController@destroy');
+    Route::put('/{id}', 'SellerTargetController@update');
+
+  });
+});
+
+Route::group(['middleware' => ['auth:api', 'seller'],'namespace' => 'Seller'], function(){
+    Route::group(['prefix'=>'transaction'], function(){
+      Route::post('/listing', 'TransactionController@listing');
+      Route::post('/', 'TransactionController@store');
+      Route::put('/{id}', 'TransactionController@update');
+      Route::delete('/{id}', 'TransactionController@destroy');
+      Route::get('/{code}/verified', 'TransactionController@setVerified');
+
+    });
 });

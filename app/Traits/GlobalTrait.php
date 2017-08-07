@@ -5,6 +5,7 @@ use Illuminate\Http\Request;
 use Auth;
 use App\Models\Activity;
 use App\Models\Media;
+use App\Models\Verify;
 use Storage;
 use Image;
 
@@ -97,5 +98,14 @@ trait GlobalTrait
         } else {
             return false;
         }
+    }
+
+    public function generateVerificationCode($verifiable_id, $verifiable_type)
+    {
+        Verify::create([
+          'code' => str_random(40),
+          'verifiable_id' => $verifiable_id,
+          'verifiable_type' => $verifiable_type,
+        ]);
     }
 }

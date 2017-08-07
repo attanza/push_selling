@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Controllers\Admin;
+namespace App\Http\Controllers\Seller;
 
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
@@ -9,11 +9,11 @@ use App\Models\Outlet;
 use App\Models\Market;
 use App\Http\Requests\StoreOutletRequest;
 
-class OutletController extends Controller
+class SellerOutletController extends Controller
 {
     use GlobalTrait;
 
-    public function index()
+    public function index(Request $request)
     {
         return view('admin.outlet.index');
     }
@@ -31,9 +31,16 @@ class OutletController extends Controller
             ->orWhere('pic', 'LIKE', "%$query%")->orWhere('owner', 'LIKE', "%$query%")
             ->orWhere('code', 'LIKE', "%$query%")->orWhere('phone1', 'LIKE', "%$query%")
             ->orWhere('phone2', 'LIKE', "%$query%")
+            ->whereHas('detail', function ($query) {
+                $query->where('seller_id', Auth::id());
+            })
             ->paginate($request->paginate);
         } else {
-            $outlets = Outlet::with('market')->paginate($request->paginate);
+              $outlets = Outlet::with('market', 'detail')
+              ->whereHas('detail', function ($query) {
+                  $query->where('seller_id', Auth::id());
+              })
+              ->paginate($request->paginate);
         }
         $response = [
             'pagination' => [

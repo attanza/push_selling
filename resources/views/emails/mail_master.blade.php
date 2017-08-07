@@ -9,6 +9,12 @@
   margin: 0px;
   padding: 0px;
 }
+body{
+  font-family: "Helvetica Neue",Helvetica,Arial,sans-serif;
+  font-size: 14px;
+  line-height: 1.42857143;
+  color: #333;
+}
 .mail-nav{
   background-color: #dd4b39;
   height: 40px;
@@ -22,9 +28,10 @@
   margin-top: 5px;
 }
 .container{
-  margin: 10% 10%;
+  margin: 5% 10%;
 }
 </style>
+@yield('styles')
 </head>
 <body>
 <nav class="mail-nav">

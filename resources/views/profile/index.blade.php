@@ -93,7 +93,9 @@
           <div class="nav-tabs-custom">
             <ul class="nav nav-tabs">
               <li class="active"><a href="#activity" data-toggle="tab">Activity</a></li>
-              <li><a href="#target" data-toggle="tab">Sell Target</a></li>
+              @if ($user->roles()->first()->slug == 'seller')
+                <li><a href="#target" data-toggle="tab">Sell Target</a></li>
+              @endif
               <li><a href="#user_detail" data-toggle="tab">Detail</a></li>
             </ul>
             <div class="tab-content">
