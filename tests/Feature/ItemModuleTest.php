@@ -93,7 +93,7 @@ class ItemModuleTest extends TestCase
      */
     public function test_admin_cannot_delete_bounded_item()
     {
-        $item = factory(Item::class)->create();
+        // $item = factory(Item::class)->create();
         $user = User::find(2);
         $this->actingAs($user, 'api')
           ->json('delete', '/api/items/1')

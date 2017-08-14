@@ -4,7 +4,7 @@
     <!-- Content Header (Page header) -->
     <section class="content-header">
       <h1>
-        User Profile
+        Your Profile
       </h1>
       <ol class="breadcrumb">
         <li><a href="{{url('/dashboard')}}"><i class="fa fa-dashboard"></i> Dashboard</a></li>
@@ -132,7 +132,6 @@
               </div>
               <user-detail-edit :user="{{$user}}" :roles="{{$roles}}"></user-detail-edit>
               <upload-avatar :user="{{$user}}"></upload-avatar>
-
               <change-password :user_id="{{$user->id}}"></change-password>
             </div>
           </div>

@@ -209,7 +209,8 @@ class TransactionController extends Controller
         $market = $transaction->outlet->market;
         $today = Carbon::now();
         Mail::to($transaction->seller)->send(new TransactionAfterVerificationMail($transaction));
-        Mail::to($stokiest->email)->send(new TransactionSendOrderToStokiestMail($transaction, $stokiest, $market, $today));
+        Mail::to($stokiest->email)
+            ->send(new TransactionSendOrderToStokiestMail($transaction, $stokiest, $market, $today));
     }
 
     private function getItemOutletData()

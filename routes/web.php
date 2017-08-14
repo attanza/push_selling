@@ -11,16 +11,8 @@ Route::post('forgot-password', 'PasswordUtilityController@postForgotPassword')->
 
 Route::get('test/mail/view', function(){
   $transaction = App\Models\Transaction::find(1);
-  // return $transaction->outlet->market->area->stokiest;
-  $stokiest = $transaction->outlet->market->area->stokiest;
-  $market = $transaction->outlet->market;
-  $today = Carbon\Carbon::now();
-  // return view('emails.mail_master_2');
-  return view('emails.transaction_send_order_to_stokiest')->with([
-      'transaction' => $transaction,
-      'stokiest' => $stokiest,
-      'today' => $today,
-      'market' => $market,
+  return view('emails.transaction_verified')->with([
+    'transaction' => $transaction,
   ]);
 });
 
